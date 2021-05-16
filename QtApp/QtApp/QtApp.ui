@@ -1,25 +1,262 @@
-<UI version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>QtAppClass</class>
- <widget class="QWidget" name="QtAppClass" >
-  <property name="objectName" >
-   <string notr="true">QtAppClass</string>
-  </property>
-  <property name="geometry" >
+ <widget class="QWidget" name="QtAppClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>820</width>
+    <height>570</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="minimumSize">
+   <size>
+    <width>820</width>
+    <height>570</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>820</width>
+    <height>570</height>
+   </size>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
+  </property>
+  <property name="windowTitle">
    <string>QtApp</string>
-  </property>$centralwidget$
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(30, 30, 30);</string>
+  </property>
+  <widget class="QGroupBox" name="camera">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>500</width>
+     <height>450</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>ForbiddenCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QGroupBox {
+	border: 2px solid gray;
+	background: rgb(50, 50, 50);
+	border-radius: 5px;
+	/*margin-top: 12px;*/
+}
+
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: left top;
+	padding: 4px;
+	border-bottom: 2px solid gray;
+	border-right: 2px solid gray;
+	border-bottom-right-radius: 5px;
+    color: white;
+	background: rgb(30, 30, 30);
+}</string>
+   </property>
+   <property name="title">
+    <string>Retour caméra</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="controls">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>20</y>
+     <width>271</width>
+     <height>450</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QGroupBox {
+	border: 2px solid gray;
+	background: rgb(50, 50, 50);
+	border-radius: 5px;
+	/*margin-top: 12px;*/
+}
+
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: left top;
+	padding: 4px;
+	border-bottom: 2px solid gray;
+	border-right: 2px solid gray;
+	border-bottom-right-radius: 5px;
+    color: white;
+	background: rgb(30, 30, 30);
+}</string>
+   </property>
+   <property name="title">
+    <string>Contrôles</string>
+   </property>
+   <widget class="QPushButton" name="up">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>60</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+background: white;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>UP</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="up_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>120</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+background: white;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>LEFT</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="up_3">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>120</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+background: white;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>RIGHT</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="up_4">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>180</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+background: white;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>DOWN</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="horizontalSlider">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>280</y>
+      <width>170</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>255</y>
+      <width>49</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: white;
+background: transparent;</string>
+    </property>
+    <property name="text">
+     <string>Vitesse</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="infos">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>479</y>
+     <width>781</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QGroupBox {
+	border: 2px solid gray;
+	background: rgb(50, 50, 50);
+	border-radius: 5px;
+	/*margin-top: 12px;*/
+}
+
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: left top;
+	padding: 4px;
+	border-bottom: 2px solid gray;
+	border-right: 2px solid gray;
+	border-bottom-right-radius: 5px;
+    color: white;
+	background: rgb(30, 30, 30);
+}</string>
+   </property>
+   <property name="title">
+    <string>Informations</string>
+   </property>
+  </widget>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources>
-   <include location="QtApp.qrc"/>
+  <include location="QtApp.qrc"/>
  </resources>
  <connections/>
-</UI>
+</ui>
