@@ -12,5 +12,8 @@ int main(int argc, char *argv[])
     window.show();
 
     MyRobot robot(NULL);
+    //robot.connected();
+    robot.send(10, 100);
+    
     return app.exec();
 }

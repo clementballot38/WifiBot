@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QMutex>
+#include <QMessageBox>
 
 class MyRobot : public QObject {
     Q_OBJECT
@@ -15,6 +16,7 @@ public:
     void MyTcpClient(QObject* parent = 0);
     void doConnect();
     void disConnect();
+    void send(uint left_speed, uint right_speed, bool forward = true, bool control_speed = false);
     QByteArray DataToSend;
     QByteArray DataReceived;
     QMutex Mutex;
