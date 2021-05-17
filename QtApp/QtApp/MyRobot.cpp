@@ -1,7 +1,7 @@
 #include "MyRobot.h"
 
 MyRobot::MyRobot(QObject* parent) : QObject(parent) {
-    /*
+    
     // OG code
     DataToSend.resize(9);
     DataToSend[0] = 0xFF;
@@ -18,10 +18,10 @@ MyRobot::MyRobot(QObject* parent) : QObject(parent) {
     // setup signal and slot
     //      sender      signal             receiver     member
     connect(TimerEnvoi, SIGNAL(timeout()), this,        SLOT(MyTimerSlot())); //Send data to wifibot timer
-    */
-
     this->doConnect();
-    this->send(0, 0, true); // set speed to 0 L&R and forward
+
+    /*this->doConnect();
+    this->send(0, 0, true); // set speed to 0 L&R and forward*/
 }
 
 
@@ -39,7 +39,7 @@ void MyRobot::doConnect() {
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     qDebug() << "connecting..."; // this is not blocking call
     //socket->connectToHost("LOCALHOST", 15020);
-    socket->connectToHost("192.168.1.106", 15020); // connection to wifibot with TCP
+    socket->connectToHost("192.168.1.11", 15020); // connection to wifibot with TCP
     // we need to wait...
     if (!socket->waitForConnected(5000)) {
         qDebug() << "Error: " << socket->errorString();
@@ -48,8 +48,9 @@ void MyRobot::doConnect() {
         messageBox.setFixedSize(500, 200);
         return;
     }
-    TimerEnvoi->start(75);
-
+    else {
+        TimerEnvoi->start(75);
+    }
 }
 
 void MyRobot::disConnect() {
@@ -83,10 +84,10 @@ void MyRobot::send(uint left_speed, uint right_speed, bool forward, bool control
     DataToSend[8] = 0x0;
 
     DataReceived.resize(21);
-
-    // send data to wifibot timer
-    //      sender      signal             receiver     member
-    connect(TimerEnvoi, SIGNAL(timeout()), this,        SLOT(MyTimerSlot()));
+    while (Mutex.tryLock());
+    socket->write(DataToSend);
+    Mutex.unlock();
+    qDebug("send");
 }
 
 void MyRobot::connected() {
@@ -102,14 +103,14 @@ void MyRobot::bytesWritten(qint64 bytes) {
 }
 
 void MyRobot::readyRead() {
-    qDebug() << "reading..."; // read the data from the socket
+    //qDebug() << "reading..."; // read the data from the socket
     DataReceived = socket->readAll();
     emit updateUI(DataReceived);
     qDebug() << DataReceived[0] << DataReceived[1] << DataReceived[2];
 }
 
 void MyRobot::MyTimerSlot() {
-    qDebug() << "Timer...";
+    //qDebug() << "Timer...";
     while (Mutex.tryLock());
     socket->write(DataToSend);
     Mutex.unlock();

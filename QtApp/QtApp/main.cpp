@@ -11,9 +11,9 @@ int main(int argc, char *argv[])
     QtApp window;
     window.show();
 
-    MyRobot robot(NULL);
+    //MyRobot robot(NULL);
     //robot.connected();
-    robot.send(10, 100);
+    //robot.send(10, 100);
     
     return app.exec();
 }
