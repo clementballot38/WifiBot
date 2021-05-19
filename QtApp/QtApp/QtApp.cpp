@@ -18,6 +18,8 @@ QtApp::QtApp(QWidget *parent)
     connect(ui.left, SIGNAL(clicked()), this, SLOT(leftButton()));
     connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
     connect(ui.stop, SIGNAL(clicked()), this, SLOT(stopButton()));
+
+    connect(ui.speed_slider, SIGNAL(valueChanged()), this, SLOT(setSpeed()));
 }
 
 
@@ -39,4 +41,8 @@ void QtApp::rightButton() {
 
 void QtApp::stopButton() {
     bot->createData(0, 0, true);
+}
+
+void QtApp::setSpeed() {
+    
 }

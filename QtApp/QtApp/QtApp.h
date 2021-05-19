@@ -26,4 +26,5 @@ private slots:
     void leftButton();
     void rightButton();
     void stopButton();
+    void setSpeed();
 };

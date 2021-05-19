@@ -186,7 +186,7 @@ border-radius: 15px;</string>
      <string>DOWN</string>
     </property>
    </widget>
-   <widget class="QSlider" name="horizontalSlider">
+   <widget class="QSlider" name="speed_slider">
     <property name="geometry">
      <rect>
       <x>40</x>
