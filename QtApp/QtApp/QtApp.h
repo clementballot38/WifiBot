@@ -18,9 +18,12 @@ public:
 
 private:
     Ui::QtAppClass ui;
-    QPushButton* btn;
     MyRobot *bot;
 
 private slots:
     void upButton();
+    void downButton();
+    void leftButton();
+    void rightButton();
+    void stopButton();
 };
