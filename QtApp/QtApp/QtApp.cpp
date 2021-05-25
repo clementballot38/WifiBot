@@ -7,6 +7,7 @@ QtApp::QtApp(QWidget *parent)
 
 
     bot = new MyRobot(this);
+    gamepad = new GamepadController(bot);
 
 
     //btn = parent->findChild<QPushButton*>("up");
@@ -19,30 +20,39 @@ QtApp::QtApp(QWidget *parent)
     connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
     connect(ui.stop, SIGNAL(clicked()), this, SLOT(stopButton()));
 
-    connect(ui.speed_slider, SIGNAL(valueChanged()), this, SLOT(setSpeed()));
+    connect(ui.speed_slider, SIGNAL(valueChanged(int)), this, SLOT(setSpeed(int)));
 }
 
 
 void QtApp::upButton() {
-    bot->createData(100, 100, true);
+    bot->turn(0);
+    bot->setSpeed(speed);
+    bot->goForward();
 }
 
 void QtApp::downButton() {
-    bot->createData(100, 100, false);
+    bot->turn(0);
+    bot->setSpeed(speed);
+    bot->goForward(false);
 }
 
 void QtApp::leftButton() {
-    bot->createData(0, 100, true);
+    bot->turn(-45);
+    bot->setSpeed(speed);
+    bot->goForward();
 }
 
 void QtApp::rightButton() {
-    bot->createData(100, 0, true);
+    bot->turn(45);
+    bot->setSpeed(speed);
+    bot->goForward();
 }
 
 void QtApp::stopButton() {
-    bot->createData(0, 0, true);
+    bot->setSpeed(0);
 }
 
-void QtApp::setSpeed() {
-    
+void QtApp::setSpeed(int a) {
+    speed = a;
+    bot->setSpeed(speed);
 }

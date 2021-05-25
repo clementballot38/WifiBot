@@ -43,9 +43,21 @@
     <ClCompile Include="MyRobot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GamepadController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MyRobot.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GamepadController.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="OpenGLGraph.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

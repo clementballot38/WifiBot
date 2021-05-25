@@ -32,12 +32,12 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;gui;multimedia;multimediawidgets;network;widgets</QtModules>
+    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;opengl;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.0.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;network;widgets</QtModules>
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;opengl;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -99,12 +99,20 @@
     <QtRcc Include="QtApp.qrc" />
     <QtUic Include="QtApp.ui" />
     <QtMoc Include="QtApp.h" />
+    <ClCompile Include="GamepadController.cpp" />
     <ClCompile Include="MyRobot.cpp" />
+    <ClCompile Include="OpenGLGraph.cpp" />
     <ClCompile Include="QtApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MyRobot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="GamepadController.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="OpenGLGraph.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
