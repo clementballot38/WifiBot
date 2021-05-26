@@ -24,6 +24,7 @@ namespace QtApp {
     private:
         Ui::QtAppClass ui;
         MyRobot* bot;
+        GamepadController* gamepad;
         void updateMovement(int speed, Direction dir, bool forward);
         int speed;
 
@@ -33,6 +34,6 @@ namespace QtApp {
         void leftButton();
         void rightButton();
         void stopButton();
-        void setSpeed();
+        void setSpeed(int val);
     };
 }

@@ -21,45 +21,53 @@ namespace QtApp {
         connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
         connect(ui.stop, SIGNAL(clicked()), this, SLOT(stopButton()));
 
-        connect(ui.speed_slider, SIGNAL(valueChanged()), this, SLOT(setSpeed()));
+        connect(ui.speed_slider, SIGNAL(valueChanged()), this, SLOT(setSpeed(int)));
     }
 
 
     void QtApp::upButton() {
-        updateMovement(speed, Direction::straight, true);
+        bot->setSpeed(speed);
+        bot->goForward();
     }
 
     void QtApp::downButton() {
-        updateMovement(speed, Direction::straight, false);
+        bot->setSpeed(speed);
+        bot->goForward(false);
     }
 
     void QtApp::leftButton() {
-        updateMovement(speed, Direction::left, true);
+        bot->setSpeed(speed);
+        bot->turn(-45);
+        bot->goForward();
     }
 
     void QtApp::rightButton() {
-        updateMovement(speed, Direction::right, true);
+        bot->setSpeed(speed);
+        bot->turn(45);
+        bot->goForward();
     }
 
     void QtApp::stopButton() {
-        updateMovement(0, Direction::straight, true);
+        bot->setSpeed(0);
     }
 
-    void QtApp::setSpeed() {
+    void QtApp::setSpeed(int val) {
         speed = 0;
-        std::cout << "Speed : " << speed << std::endl;
+        std::cout << val << std::endl;
+        //std::cout << "Speed : " << speed << std::endl;
+        bot->setSpeed(speed);
     }
 
     void QtApp::updateMovement(int speed, Direction dir, bool forward) {
         switch (dir) {
         case Direction::left :
-            bot->createData(speed / (forward ? 3 : 1), speed / (forward ? 1 : 3), forward);
+            //bot->createData(speed / (forward ? 3 : 1), speed / (forward ? 1 : 3), forward);
             break;
         case Direction::straight :
-            bot->createData(speed, speed, forward);
+            //bot->createData(speed, speed, forward);
             break;
         case Direction::right :
-            bot->createData(speed / (forward ? 1 : 3), speed / (forward ? 3 : 1), forward);
+            //bot->createData(speed / (forward ? 1 : 3), speed / (forward ? 3 : 1), forward);
             break;
         }
     }

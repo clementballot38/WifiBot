@@ -13,5 +13,5 @@ void OpenGLGraph::paintGL() {
 
 
 void OpenGLGraph::initializeGL() {
-	qglClearColor(Qt::black);
+	//qglClearColor(Qt::black);
 }

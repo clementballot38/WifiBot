@@ -20,6 +20,6 @@ private:
 private slots:
 	void moveX(double val);
 	void changeSpeed(double val);
-	//void changeBrakes(double val);
+	void changeBrakes(double val);
 };
 

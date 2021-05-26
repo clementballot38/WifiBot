@@ -2,18 +2,17 @@
 
 
 #include <QObject>
-#include <QGLWidget>
 
 
 
-class OpenGLGraph : QGLWidget
+class OpenGLGraph : QObject
 {
 	Q_OBJECT
 
 
 public:
 	OpenGLGraph(QObject *parent = 0);
-	void draw();
+	//void draw();
 
 
 private:

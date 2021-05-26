@@ -149,6 +149,7 @@ void MyRobot::setSpeed(int val) {
 void MyRobot::turn(float angle) {
     if (angle >= -90 && angle <= 90)
         this->dirAngle = angle;
+    this->setSpeed(this->speed);
 }
 
 void MyRobot::goForward(bool f) {
