@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QtApp window;
+    QtApp:: QtApp window;
     window.show();
 
     //MyRobot robot(NULL);
