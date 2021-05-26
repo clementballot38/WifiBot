@@ -2,13 +2,13 @@
 
 namespace QtApp {
     QtApp::QtApp(QWidget* parent)
-        : QMainWindow(parent), speed(0)
-    {
+        : QMainWindow(parent), speed(0) {
+    
+        
         ui.setupUi(this);
 
-
-    bot = new MyRobot(this);
-    gamepad = new GamepadController(bot);
+        bot = new MyRobot(this);
+        gamepad = new GamepadController(bot);
 
 
         //btn = parent->findChild<QPushButton*>("up");
