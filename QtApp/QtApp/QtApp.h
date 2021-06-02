@@ -18,8 +18,15 @@ public:
     QtApp(QWidget *parent = Q_NULLPTR);
 
 private:
-    Ui::QtAppClass ui;
-    MyRobot *bot;
+     Ui::QtAppClass ui;
+       MyRobot* bot;
+      // GamepadController* gamepad;
+       // void updateMovement(int speed, Direction dir, bool forward);
+       int speed;
+      QWebEngineView* View_camera;
+        QNetworkAccessManager* manager;
+        void keyPressEvent(QKeyEvent* ev);
+        void keyReleaseEvent(QKeyEvent* ev);
 
 private slots:
     void upButton();
@@ -28,11 +35,4 @@ private slots:
     void rightButton();
     void stopButton();
 };
-    private:
-        Ui::QtAppClass ui;
-        MyRobot* bot;
-        GamepadController* gamepad;
-        void updateMovement(int speed, Direction dir, bool forward);
-        int speed;
-        QWebEngineView* streamView;
-        QNetworkAccessManager* manager;
+   
