@@ -3,8 +3,9 @@
 //#include <QtWidgets/QWidget>
 #include <QMainWindow>
 #include "ui_QtApp.h"
-
-
+#include <QMediaPlayer>
+#include <QtWidgets>
+#include <QtWebEngineWidgets>
 #include "MyRobot.h";
 
 #include <QMessageBox>
@@ -27,3 +28,11 @@ private slots:
     void rightButton();
     void stopButton();
 };
+    private:
+        Ui::QtAppClass ui;
+        MyRobot* bot;
+        GamepadController* gamepad;
+        void updateMovement(int speed, Direction dir, bool forward);
+        int speed;
+        QWebEngineView* streamView;
+        QNetworkAccessManager* manager;

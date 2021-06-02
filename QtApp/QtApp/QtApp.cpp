@@ -19,6 +19,16 @@ QtApp::QtApp(QWidget *parent)
     connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
     connect(ui.stop, SIGNAL(clicked()), this, SLOT(stopButton()));
 }
+        connect(ui.speed_slider, SIGNAL(valueChanged()), this, SLOT(setSpeed(int)));
+
+        
+        ui.View_camera->load(QUrl("http://192.168.1.11:8080/?action=stream"));
+        ui.View_camera->show();
+
+
+
+
+    }
 
 
 void QtApp::upButton() {

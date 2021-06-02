@@ -31,8 +31,8 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.0.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;network;widgets</QtModules>
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;opengl;webenginewidgets;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -55,8 +55,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <IncludePath>C:\Users\jules\OneDrive\Bureau\3ARobot\projet3A\5.15.2\msvc2019_64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <IncludePath>C:\Users\jules\OneDrive\Bureau\3ARobot\projet3A\5.15.2\msvc2019_64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
