@@ -32,7 +32,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;opengl;widgets</QtModules>
+    <QtModules>core;gamepad;gui;network;opengl;quick;quickwidgets;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -113,6 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="OpenGLGraph.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gauge.qml" />
+    <None Include="main.qml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

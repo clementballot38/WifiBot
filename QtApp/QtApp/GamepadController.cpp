@@ -2,7 +2,7 @@
 
 
 GamepadController::GamepadController(MyRobot* bot, QObject* parent)
-	: robot(bot), QObject(parent), gamepad(0), goForward(true) {
+	: robot(bot), QObject(parent), gamepad(0), gazForce(0), brakesForce(0) {
 	/*auto gamepads = QGamepadManager::instance()->connectedGamepads();
 	qDebug() << gamepads;
 	if (gamepads.isEmpty()) {
@@ -22,22 +22,23 @@ GamepadController::GamepadController(MyRobot* bot, QObject* parent)
 
 
 void GamepadController::moveX(double val) {
-	qDebug() << "X:" << val;
-	if (this->goForward)
+	if (gazForce - brakesForce >= 0)
 		robot->turn(90.0f * val);
 	else
 		robot->turn(-90.0f * val);
 }
 
 void GamepadController::changeBrakes(double val) {
-	qDebug() << "Brakes:" << val;
-	robot->setSpeed(val * 240);
-	this->goForward = false;
-	robot->goForward(false);
+	this->brakesForce = val;
+	this->updateSpeed();
 }
 void GamepadController::changeSpeed(double val) {
-	qDebug() << "Trigger:" << val;
-	robot->setSpeed(val * 240);
-	this->goForward = true;
-	robot->goForward();
+	this->gazForce = val;
+	this->updateSpeed();
+}
+void GamepadController::updateSpeed() {
+	int s = (int)(240 * (this->gazForce - this->brakesForce));
+	qDebug() << s;
+	robot->setSpeed(abs(s));
+	robot->goForward(s >= 0);
 }

@@ -1,4 +1,8 @@
 <RCC>
-    <qresource prefix="QtApp">
+    <qresource prefix="/QtApp">
+        <file>gauge.qml</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>main.qml</file>
     </qresource>
 </RCC>

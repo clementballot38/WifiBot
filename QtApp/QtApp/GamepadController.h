@@ -16,7 +16,8 @@ public:
 private:
 	QGamepad* gamepad;
 	MyRobot* robot;
-	bool goForward;
+	double gazForce, brakesForce;
+	void updateSpeed();
 
 private slots:
 	void moveX(double val);
