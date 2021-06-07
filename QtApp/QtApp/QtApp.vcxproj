@@ -32,12 +32,12 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;opengl;webenginewidgets;widgets</QtModules>
+    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;opengl;quick;quickwidgets;webengine;webenginewidgets;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.0.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;network;widgets</QtModules>
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;opengl;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -63,7 +63,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\6.0.3\msvc2019_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\5.15.2\msvc2019_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -101,12 +101,24 @@
     <QtRcc Include="QtApp.qrc" />
     <QtUic Include="QtApp.ui" />
     <QtMoc Include="QtApp.h" />
+    <ClCompile Include="GamepadController.cpp" />
     <ClCompile Include="MyRobot.cpp" />
+    <ClCompile Include="OpenGLGraph.cpp" />
     <ClCompile Include="QtApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MyRobot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="GamepadController.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="OpenGLGraph.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gauge.qml" />
+    <None Include="main.qml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -20,24 +20,13 @@ MyRobot::MyRobot(QObject* parent) : QObject(parent) {
     connect(TimerEnvoi, SIGNAL(timeout()), this,        SLOT(keepAlive()));
 
     this->doConnect();
-
-    /*this->doConnect();
-    this->send(0, 0, true); // set speed to 0 L&R and forward*/
 }
-
-
-
-/*void MyRobot::MyTcpClient(QObject* parent) {
-
-}*/
-
 
 void MyRobot::keepAlive() {
     //createData(200, 0);
     sendMessage();
     receiveMessage();
 }
-
 
 void MyRobot::sendMessage() {
     socket->write(DataToSend);
@@ -59,10 +48,9 @@ void MyRobot::doConnect() {
     connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(bytesWritten(qint64)));
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    qDebug() << "connecting..."; // this is not blocking call
-    //socket->connectToHost("LOCALHOST", 15020);
+
+    qDebug() << "Connecting"; // this is not blocking call
     socket->connectToHost("192.168.1.11", 15020); // connection to wifibot with TCP
-    // we need to wait...
     if (!socket->waitForConnected(5000)) {
         qDebug() << "Error: " << socket->errorString();
         QMessageBox messageBox;
@@ -70,10 +58,9 @@ void MyRobot::doConnect() {
         messageBox.setFixedSize(500, 200);
         return;
     }
-    else {
-        qDebug("start");
-        TimerEnvoi->start();
-    }
+
+    qDebug("Connected, starting");
+    TimerEnvoi->start();
 }
 
 void MyRobot::disConnect() {
@@ -83,37 +70,6 @@ void MyRobot::disConnect() {
 
 void MyRobot::createData(uint left_speed, uint right_speed, bool forward, bool control_speed)
 {
-    /*DataToSend.resize(9);
-    DataToSend[0] = 0xFF;   // always 255
-    DataToSend[1] = 0x07;   // size in bytes (always 7 ?)
-
-    // left motor control
-    DataToSend[2] = left_speed;     // speed
-    DataToSend[3] = 0x00;           // forward/backward
-
-    // right motor control
-    DataToSend[4] = right_speed;    // speed
-    DataToSend[5] = 0x00;           // ?
-
-    // <left speed control on(1)/off(0)>  <left forward(1)/backward(0)>
-    // <right speed control on(1)/off(0)> <right forward(1)/backward(0)>
-    // <relay 4 on(1)/off(0)> <relay 3 on(1)/off(0)> <relay 2 on(1)/off(0)> <relay 1 (sensors) on(1)/off(0)>
-    DataToSend[6] =  128 * control_speed + 64 * forward     // left motor
-                    + 32 * control_speed + 16 * forward     // right motor
-                    + 0;                                    // sensord
-
-    // CRC (not used in TCP)
-    DataToSend[7] = 0x0;
-    DataToSend[8] = 0x0;
-
-    DataReceived.resize(21);
-    while (Mutex.tryLock());
-    socket->write(DataToSend);
-    Mutex.unlock();
-    qDebug("send");*/
-
-
-
     DataToSend.clear();
 
     // frame infos
@@ -173,24 +129,29 @@ void MyRobot::readyRead() {
     qDebug() << "Read : " << DataReceived;
 }
 
-/*void MyRobot::MyTimerSlot() {
-    //qDebug() << "Timer...";
-
-    DataToSend.resize(9);
-    DataToSend[0] = 0xFF;
-    DataToSend[1] = 0x07;
-    DataToSend[2] = 0xf0;
-    DataToSend[3] = 0x0;
-    DataToSend[4] = 0x0;
-    DataToSend[5] = 0x0;
-    DataToSend[6] = 0x0;
-    DataToSend[7] = 0x0;
-    DataToSend[8] = 0x0;
 
 
-
-    while (Mutex.tryLock());
-    socket->write(DataToSend);
-    Mutex.unlock();
+void MyRobot::setSpeed(int val) {
+    this->speed = val;
+    int left_speed, right_speed;
+    if (this->forward) {
+        left_speed = this->dirAngle < 0 ? (int)((float)(this->speed) * cos(this->dirAngle * PI / 180.0f)) : this->speed;
+        right_speed = this->dirAngle > 0 ? (int)((float)(this->speed) * cos(this->dirAngle * PI / 180.0f)) : this->speed;
+    }
+    else {
+        left_speed = this->dirAngle > 0 ? (int)((float)(this->speed) * cos(this->dirAngle * PI / 180.0f)) : this->speed;
+        right_speed = this->dirAngle < 0 ? (int)((float)(this->speed) * cos(this->dirAngle * PI / 180.0f)) : this->speed;
+    }
+    this->createData(left_speed, right_speed, this->forward);
 }
-*/
+
+// -90 : full left, 0 : straight, +90 : full right
+void MyRobot::turn(float angle) {
+    if (angle >= -90 && angle <= 90)
+        this->dirAngle = angle;
+    this->setSpeed(this->speed);
+}
+
+void MyRobot::goForward(bool f) {
+    this->forward = f;
+}

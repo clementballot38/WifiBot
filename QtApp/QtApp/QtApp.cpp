@@ -1,84 +1,77 @@
 #include "QtApp.h"
 
-QtApp::QtApp(QWidget *parent)
-    : QMainWindow(parent)
-{
-    ui.setupUi(this);
-
-
-    bot = new MyRobot(this);
-
-
-    //btn = parent->findChild<QPushButton*>("up");
-   // btn = new QPushButton("My Button", this);
-     //resize button
-    //btn->setGeometry(QRect(QPoint(100, 100), QSize(200, 50)));
-    connect(ui.up, SIGNAL(clicked()), this, SLOT(upButton()));
-    connect(ui.down, SIGNAL(clicked()), this, SLOT(downButton()));
-    connect(ui.left, SIGNAL(clicked()), this, SLOT(leftButton()));
-    connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
-    connect(ui.stop, SIGNAL(clicked()), this, SLOT(stopButton()));
-
-    //connect(ui.speed_slider, SIGNAL(valueChanged()), this, SLOT(setSpeed(int)));
-
-    //Caemra
-    ui.View_camera->load(QUrl("http://192.168.1.11:8080/?action=stream"));
-    ui.View_camera->setZoomFactor(1.52);
-    ui.View_camera->show();
+namespace QtApp {
+    QtApp::QtApp(QWidget* parent)
+        : QMainWindow(parent), speed(0) {
     
-   
-   
-   
-    
-
-
-}
         
-void QtApp::keyPressEvent(QKeyEvent* ev) {
-    switch (ev->key()) {
-        // Choix de la direction
-    case Qt::Key_Z:
-        bot->createData(100, 100, true);
+        ui.setupUi(this);
 
-        break;
-    case Qt::Key_S:
-        bot->createData(100, 100, false);
-        break;
-    case Qt::Key_Q:
-        bot->createData(0, 100, true);
-        break;
-    case Qt::Key_D:
-        bot->createData(100, 0, true);
-        break;
-    case Qt::Key_W:
-        bot->createData(0, 0, true);
-        break;
+        bot = new MyRobot(this);
+        gamepad = new GamepadController(bot);
 
+
+        connect(ui.up, SIGNAL(clicked()), this, SLOT(upButton()));
+        connect(ui.down, SIGNAL(clicked()), this, SLOT(downButton()));
+        connect(ui.left, SIGNAL(clicked()), this, SLOT(leftButton()));
+        connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
+        connect(ui.stop, SIGNAL(clicked()), this, SLOT(stopButton()));
+
+
+        connect(ui.up, SIGNAL(clicked()), this, SLOT(upButton()));
+        connect(ui.down, SIGNAL(clicked()), this, SLOT(downButton()));
+        connect(ui.left, SIGNAL(clicked()), this, SLOT(leftButton()));
+        connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
+        connect(ui.stop, SIGNAL(clicked()), this, SLOT(stopButton()));
+
+        //connect(ui.speed_slider, SIGNAL(valueChanged()), this, SLOT(setSpeed(int)));
+
+
+        //Caemra
+        ui.View_camera->load(QUrl("http://192.168.1.11:8080/?action=stream"));
+        ui.View_camera->setZoomFactor(1.52);
+        ui.View_camera->show();
     }
-}
-
-void QtApp::keyReleaseEvent(QKeyEvent* ev) {
-    switch (ev->key()) {
+        
+    void QtApp::keyPressEvent(QKeyEvent* ev) {
+        switch (ev->key()) {
         // Choix de la direction
-    case Qt::Key_Z:
-        bot->createData(0, 0, 0);
-
-        break;
-    case Qt::Key_S:
-        bot->createData(0, 0, 0);
-        break;
-    case Qt::Key_Q:
-        bot->createData(0, 0, 0);
-        break;
-    case Qt::Key_D:
-        bot->createData(0, 0, 0);
-        break;
-    case Qt::Key_W:
-        bot->createData(0, 0, 0);
-        break;
-
+        case Qt::Key_Z:
+            bot->setSpeed(240);
+            bot->goForward();
+            break;
+        case Qt::Key_S:
+            bot->setSpeed(240);
+            bot->goForward(false);
+            break;
+        case Qt::Key_Q:
+            bot->setSpeed(240);
+            bot->turn(-45);
+            bot->goForward();
+            break;
+        case Qt::Key_D:
+            bot->setSpeed(240);
+            bot->turn(45);
+            bot->goForward();
+            break;
+        case Qt::Key_W:
+            bot->setSpeed(0);
+            break;
+        }
     }
-}
+
+    void QtApp::keyReleaseEvent(QKeyEvent* ev) {
+        switch (ev->key()) {
+        // Choix de la direction
+        case Qt::Key_Z:
+        case Qt::Key_S:
+        case Qt::Key_Q:
+        case Qt::Key_D:
+        case Qt::Key_W:
+            bot->setSpeed(0);
+            break;
+        }
+    }
 
 
 
@@ -87,22 +80,50 @@ void QtApp::keyReleaseEvent(QKeyEvent* ev) {
 
 
 
-void QtApp::upButton() {
-    bot->createData(100, 100, true);
-}
+    void QtApp::upButton() {
+        bot->setSpeed(speed);
+        bot->goForward();
+    }
 
-void QtApp::downButton() {
-    bot->createData(100, 100, false);
-}
+    void QtApp::downButton() {
+        bot->setSpeed(speed);
+        bot->goForward(false);
+    }
 
-void QtApp::leftButton() {
-    bot->createData(0, 100, true);
-}
+    void QtApp::leftButton() {
+        bot->setSpeed(speed);
+        bot->turn(-45);
+        bot->goForward();
+    }
 
-void QtApp::rightButton() {
-    bot->createData(100, 0, true);
-}
+    void QtApp::rightButton() {
+        bot->setSpeed(speed);
+        bot->turn(45);
+        bot->goForward();
+    }
 
-void QtApp::stopButton() {
-    bot->createData(0, 0, true);
+    void QtApp::stopButton() {
+        bot->setSpeed(0);
+    }
+
+    void QtApp::setSpeed(int val) {
+        speed = 0;
+        std::cout << val << std::endl;
+        //std::cout << "Speed : " << speed << std::endl;
+        bot->setSpeed(speed);
+    }
+
+    void QtApp::updateMovement(int speed, Direction dir, bool forward) {
+        switch (dir) {
+        case Direction::left :
+            //bot->createData(speed / (forward ? 3 : 1), speed / (forward ? 1 : 3), forward);
+            break;
+        case Direction::straight :
+            //bot->createData(speed, speed, forward);
+            break;
+        case Direction::right :
+            //bot->createData(speed / (forward ? 1 : 3), speed / (forward ? 3 : 1), forward);
+            break;
+        }
+    }
 }
