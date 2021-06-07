@@ -24,7 +24,7 @@ public:
     void setSpeed(int val);
     void turn(float angle);
     void goForward(bool f = true);
-
+    unsigned int getBattery();
 
 signals:
     void updateUI(const QByteArray Data);
@@ -52,7 +52,8 @@ private:
     const float PI = 3.14159265f;
     int speed = 0;
     bool forward = true;
-
+    int battery;
+    
     QByteArray DataToSend;
     QByteArray DataReceived;
     QMutex Mutex;

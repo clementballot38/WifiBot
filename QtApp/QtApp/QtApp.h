@@ -34,6 +34,10 @@ namespace QtApp {
         QNetworkAccessManager* manager;
         void keyPressEvent(QKeyEvent* ev);
         void keyReleaseEvent(QKeyEvent* ev);
+        
+    signals :
+        void udpdateUI(QByteArray);
+        void QtApp::receiveMessage();
 
     private slots:
         void upButton();
@@ -42,5 +46,6 @@ namespace QtApp {
         void rightButton();
         void stopButton();
         void setSpeed(int val);
+        void battStatusChanged(int percent);
     };
 }

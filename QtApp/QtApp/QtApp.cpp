@@ -31,6 +31,12 @@ namespace QtApp {
         ui.View_camera->load(QUrl("http://192.168.1.11:8080/?action=stream"));
         ui.View_camera->setZoomFactor(1.52);
         ui.View_camera->show();
+
+        //Batterie
+       
+        QObject::connect(this, SIGNAL(updateUI(QByteArray)), ui.progressBar, SLOT(maj_batterie()));
+        ui.progressBar->setValue(bot->getBattery());
+        qDebug() << bot->getBattery() << " pourcentage ";
     }
         
     void QtApp::keyPressEvent(QKeyEvent* ev) {
@@ -113,6 +119,9 @@ namespace QtApp {
         bot->setSpeed(speed);
     }
 
+
+
+
     void QtApp::updateMovement(int speed, Direction dir, bool forward) {
         switch (dir) {
         case Direction::left :
@@ -126,4 +135,41 @@ namespace QtApp {
             break;
         }
     }
+   
+
+
+
+    //Batterie
+
+    void QtApp::battStatusChanged(int percent)
+    {
+        QString c = "green";
+        if (percent < 30)
+            c = "yellow";
+        else if (percent < 10)
+            c = "red";
+        
+        
+
+        QString myStyleSheet = QString(" QProgressBar::chunk { background: %1; }").arg(c);
+
+        ui.progressBar->setStyleSheet(myStyleSheet);
+        ui.progressBar->setValue(percent);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

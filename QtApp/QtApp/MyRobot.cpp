@@ -14,7 +14,7 @@ MyRobot::MyRobot(QObject* parent) : QObject(parent) {
     DataToSend[7] = 0x0;
     DataToSend[8] = 0x0;
     DataReceived.resize(21);
-
+    
     TimerEnvoi = new QTimer();
     TimerEnvoi->setInterval(100);
     connect(TimerEnvoi, SIGNAL(timeout()), this,        SLOT(keepAlive()));
@@ -36,9 +36,10 @@ void MyRobot::sendMessage() {
 void MyRobot::receiveMessage() {
     DataReceived = socket->readAll();
     qDebug(DataReceived);
-    /*this->battery = (((unsigned int)((unsigned char)recv[2])) * 100.0 / 255.0);
-    this->cpt_ir1 = (int)recv[3];
-    this->cpt_ir2 = (int)recv[4];*/
+    this->battery = (((unsigned int)((unsigned char)DataReceived[2])) * 100.0 / 255.0);
+    qDebug() << (((unsigned int)((unsigned char)DataReceived[2])) * 100.0 / 255.0);
+    //this->cpt_ir1 = (int)recv[3];
+   // this->cpt_ir2 = (int)recv[4];*/
 }
 
 
@@ -154,4 +155,11 @@ void MyRobot::turn(float angle) {
 
 void MyRobot::goForward(bool f) {
     this->forward = f;
+}
+
+unsigned int MyRobot::getBattery()
+{
+    qDebug() << "batterie" << this->battery;
+    unsigned int battery = (unsigned char)DataReceived[2] * 100.0 / 255.0;
+    return battery;
 }
