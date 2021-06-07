@@ -4,8 +4,9 @@
 #include <QMainWindow>
 #include <iostream>
 #include "ui_QtApp.h"
-
-
+#include <QMediaPlayer>
+#include <QtWidgets>
+#include <QtWebEngineWidgets>
 #include "MyRobot.h";
 #include "GamepadController.h";
 
@@ -18,6 +19,8 @@ namespace QtApp {
     {
         Q_OBJECT
 
+
+
     public:
         QtApp(QWidget* parent = Q_NULLPTR);
 
@@ -27,6 +30,10 @@ namespace QtApp {
         GamepadController* gamepad;
         void updateMovement(int speed, Direction dir, bool forward);
         int speed;
+        QWebEngineView* View_camera;
+        QNetworkAccessManager* manager;
+        void keyPressEvent(QKeyEvent* ev);
+        void keyReleaseEvent(QKeyEvent* ev);
 
     private slots:
         void upButton();
