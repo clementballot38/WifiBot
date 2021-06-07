@@ -69,6 +69,21 @@ QGroupBox::title {
    <property name="title">
     <string>Retour caméra</string>
    </property>
+   <widget class="QWebEngineView" name="View_camera">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>521</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="url">
+     <url>
+      <string>about:blank</string>
+     </url>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="controls">
    <property name="geometry">
@@ -266,6 +281,11 @@ QGroupBox::title {
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
    <header location="global">QtQuickWidgets/QQuickWidget</header>
+  </customwidget>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
   </customwidget>
  </customwidgets>
  <resources>

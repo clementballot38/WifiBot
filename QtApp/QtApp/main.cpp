@@ -10,11 +10,11 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QtApp:: QtApp window;
-    window.inputContext();
+    /*window.inputContext();
 
     QUrl source(QStringLiteral("qrc:/main.qml"));
     QQmlApplicationEngine engine;
-    engine.load(source);
+    engine.load(source);*/
 
 
     window.show();
