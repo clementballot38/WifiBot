@@ -15,20 +15,49 @@ namespace QtApp {
         connect(ui.down, SIGNAL(clicked()), this, SLOT(downButton()));
         connect(ui.left, SIGNAL(clicked()), this, SLOT(leftButton()));
         connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
-        connect(ui.stop, SIGNAL(clicked()), this, SLOT(stopButton()));
+        
 
-
-        connect(ui.up, SIGNAL(clicked()), this, SLOT(upButton()));
-        connect(ui.down, SIGNAL(clicked()), this, SLOT(downButton()));
-        connect(ui.left, SIGNAL(clicked()), this, SLOT(leftButton()));
-        connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
-        connect(ui.stop, SIGNAL(clicked()), this, SLOT(stopButton()));
+        
+        connect(ui.up, SIGNAL(released()), this, SLOT(stopButton()));
+        connect(ui.down, SIGNAL(released()), this, SLOT(stopButton()));
+        connect(ui.left, SIGNAL(released()), this, SLOT(stopButton()));
+        connect(ui.right, SIGNAL(released()), this, SLOT(stopButton()));
+       
 
         //connect(ui.speed_slider, SIGNAL(valueChanged()), this, SLOT(setSpeed(int)));
 
 
-        //Caemra
+        //Camera
         ui.View_camera->load(QUrl("http://192.168.1.11:8080/?action=stream"));
+       
+     
+
+        //manager
+        manager = new QNetworkAccessManager();
+        QObject::connect(manager, &QNetworkAccessManager::finished,
+            this, [=](QNetworkReply* reply) {
+                if (reply->error()) {
+                    qDebug() << reply->errorString();
+                    return;
+                }
+
+                QString answer = reply->readAll();
+
+                qDebug() << answer;
+            }
+        );
+
+
+
+
+      
+
+
+     
+
+      
+
+
         ui.View_camera->setZoomFactor(1.52);
         ui.View_camera->show();
 
@@ -38,7 +67,7 @@ namespace QtApp {
         ui.progressBar->setValue(bot->getBattery());
         qDebug() << bot->getBattery() << " pourcentage ";
     }
-        
+        //controle clavier
     void QtApp::keyPressEvent(QKeyEvent* ev) {
         switch (ev->key()) {
         // Choix de la direction
@@ -63,9 +92,42 @@ namespace QtApp {
         case Qt::Key_W:
             bot->setSpeed(0);
             break;
+        case Qt::Key_F:
+            //déplacement caméra gauche
+            request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=100"));
+            manager->get(request);
+
+            break;
+
+        case Qt::Key_H:
+            //déplacement caméra gauche
+            request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=-100"));
+            manager->get(request);
+
+            break;
+        case Qt::Key_T:
+
+            //déplacement caméra haut
+            request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=-100"));
+            manager->get(request);
+
+            break;
+
+
+
+        case Qt::Key_G:
+
+            //déplacement caméra bas
+            request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=100"));
+            manager->get(request);
+
+            break;
+
+
+
         }
     }
-
+    //Fonction release
     void QtApp::keyReleaseEvent(QKeyEvent* ev) {
         switch (ev->key()) {
         // Choix de la direction
@@ -87,29 +149,31 @@ namespace QtApp {
 
 
     void QtApp::upButton() {
-        bot->setSpeed(speed);
+        bot->setSpeed(240);
+        qDebug() << "up";
         bot->goForward();
     }
 
     void QtApp::downButton() {
-        bot->setSpeed(speed);
+        bot->setSpeed(240);
         bot->goForward(false);
     }
 
     void QtApp::leftButton() {
-        bot->setSpeed(speed);
+        bot->setSpeed(240);
         bot->turn(-45);
         bot->goForward();
     }
 
     void QtApp::rightButton() {
-        bot->setSpeed(speed);
+        bot->setSpeed(240);
         bot->turn(45);
         bot->goForward();
     }
 
     void QtApp::stopButton() {
         bot->setSpeed(0);
+        qDebug() << "stop";
     }
 
     void QtApp::setSpeed(int val) {

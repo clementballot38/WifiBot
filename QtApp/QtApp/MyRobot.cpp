@@ -156,7 +156,7 @@ void MyRobot::turn(float angle) {
 void MyRobot::goForward(bool f) {
     this->forward = f;
 }
-
+//batterie
 unsigned int MyRobot::getBattery()
 {
     qDebug() << "batterie" << this->battery;

@@ -9,8 +9,9 @@
 #include <QtWebEngineWidgets>
 #include "MyRobot.h";
 #include "GamepadController.h";
-
+#include <QNetworkRequest>
 #include <QMessageBox>
+
 namespace QtApp {
     enum class Direction { left = 0, straight = 1, right = 2 };
 
@@ -34,7 +35,8 @@ namespace QtApp {
         QNetworkAccessManager* manager;
         void keyPressEvent(QKeyEvent* ev);
         void keyReleaseEvent(QKeyEvent* ev);
-        
+        QNetworkAccessManager* Camera;
+        QNetworkRequest request;
     signals :
         void udpdateUI(QByteArray);
         void QtApp::receiveMessage();
