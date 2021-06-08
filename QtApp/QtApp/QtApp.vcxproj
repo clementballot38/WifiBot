@@ -32,7 +32,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;quick;quickwidgets;webengine;webenginewidgets;widgets</QtModules>
+    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;quick;quickwidgets;svg;webengine;webenginewidgets;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -114,8 +114,10 @@
     <QtMoc Include="GamepadController.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="antenna.qml" />
     <None Include="gauge.qml" />
     <None Include="main.qml" />
+    <None Include="res\admin.svg" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="GaugeController.h" />

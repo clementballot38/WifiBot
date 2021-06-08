@@ -31,8 +31,12 @@ namespace UiController {
         // gauges
         this->speedGauge = new GaugeController(this);
         this->brakesGauge = new GaugeController(this);
+        this->distGaugeLeft = new GaugeController(this);
+        this->distGaugeRight = new GaugeController(this);
         this->ui->speed_gauge->rootContext()->setContextProperty("controller", this->speedGauge);
         this->ui->brakes_gauge->rootContext()->setContextProperty("controller", this->brakesGauge);
+        this->ui->dist_gauge_left->rootContext()->setContextProperty("controller", this->distGaugeLeft);
+        this->ui->dist_gauge_right->rootContext()->setContextProperty("controller", this->distGaugeRight);
         this->gaugesTimer = new QTimer();
         this->gaugesTimer->setInterval(10);
         this->gaugesTimer->start();
@@ -45,6 +49,11 @@ namespace UiController {
 
         this->speedGauge->setValue(bot_speed > 0 ? bot_speed : 0);
         this->brakesGauge->setValue(bot_speed < 0 ? -bot_speed : 0);
+        this->distGaugeLeft->setValue(this->bot->getDistLeft());
+        this->distGaugeRight->setValue(this->bot->getDistRight());
+
+        qDebug() << this->bot->getDistLeft() << " " << this->bot->getDistRight();
+        //this->distGauge->setValue(bot_speed > 0 ? bot_speed : 0);
     }
 
     void UiController::keyPressEvent(QKeyEvent* ev) {

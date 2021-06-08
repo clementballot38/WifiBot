@@ -6,14 +6,7 @@ import QtQuick.Controls.Styles 1.4
 CircularGauge {
     id: gauge
     objectName: "gauge"
-    //value: window.getX()
-    /*Binding {
-        target: controller
-        property: "speed"
-        value: gauge.value
-    }*/
     value: controller.value
-    //property int value: 0
 
     style: CircularGaugeStyle {
 

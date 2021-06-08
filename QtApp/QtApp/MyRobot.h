@@ -26,6 +26,8 @@ public:
     void goForward(bool f = true);
 
     int getSpeed() { return this->forward ? this->speed : -this->speed; };
+    int getDistLeft() { return this->distLeft; };
+    int getDistRight() { return this->distRight; };
 
 
 /*signals:
@@ -54,6 +56,7 @@ private:
     const float PI = 3.14159265f;
     int speed = 0;
     bool forward = true;
+    int distLeft = 127, distRight = 127;
 
     QByteArray DataToSend;
     QByteArray DataReceived;

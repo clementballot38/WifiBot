@@ -64,5 +64,7 @@
   <ItemGroup>
     <None Include="gauge.qml" />
     <None Include="main.qml" />
+    <None Include="res\admin.svg" />
+    <None Include="antenna.qml" />
   </ItemGroup>
 </Project>
