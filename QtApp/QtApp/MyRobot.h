@@ -11,13 +11,13 @@
 
 #include <math.h>
 
+
 class MyRobot : public QObject {
     Q_OBJECT
 
 
 public:
     MyRobot(QObject* parent);
-    //void MyTcpClient(QObject* parent = 0);
     void doConnect();
     void disConnect();
 
@@ -25,9 +25,11 @@ public:
     void turn(float angle);
     void goForward(bool f = true);
 
+    int getSpeed() { return this->forward ? this->speed : -this->speed; };
 
-signals:
-    void updateUI(const QByteArray Data);
+
+/*signals:
+    void updateUI(const QByteArray Data);*/
 
 
 public slots:

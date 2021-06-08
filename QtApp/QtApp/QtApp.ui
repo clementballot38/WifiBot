@@ -273,6 +273,24 @@ QGroupBox::title {
      </url>
     </property>
    </widget>
+   <widget class="QQuickWidget" name="brakes_gauge">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>10</y>
+      <width>130</width>
+      <height>130</height>
+     </rect>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/gauge.qml</string>
+     </url>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

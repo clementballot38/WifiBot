@@ -23,7 +23,6 @@ MyRobot::MyRobot(QObject* parent) : QObject(parent) {
 }
 
 void MyRobot::keepAlive() {
-    //createData(200, 0);
     sendMessage();
     receiveMessage();
 }
