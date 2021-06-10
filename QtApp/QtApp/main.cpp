@@ -1,23 +1,22 @@
-#include "QtApp.h"
-#include <QtWidgets/QApplication>
 #include <QtQml>
 
+#include "UiController.h"
 #include "MyRobot.h";
+#include "ui_QtApp.h"
 
 
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QtApp:: QtApp window;
-    /*window.inputContext();
+    QWidget* widget = new QWidget;
+    Ui::QtAppClass ui;
+    ui.setupUi(widget);
 
-    QUrl source(QStringLiteral("qrc:/main.qml"));
-    QQmlApplicationEngine engine;
-    engine.load(source);*/
-
-
-    window.show();
+    UiController::UiController controller(&ui);
     
+
+    widget->show();
+
     return app.exec();
 }

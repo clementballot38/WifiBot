@@ -289,7 +289,7 @@ QGroupBox::title {
    <property name="title">
     <string>Informations</string>
    </property>
-   <widget class="QQuickWidget" name="speed_gauge">
+   <widget class="QQuickWidget" name="brakes_gauge">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -304,6 +304,60 @@ QGroupBox::title {
     <property name="source">
      <url>
       <string>qrc:/QtApp/gauge.qml</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="QQuickWidget" name="speed_gauge">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>10</y>
+      <width>130</width>
+      <height>130</height>
+     </rect>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/gauge.qml</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="QQuickWidget" name="dist_gauge_left">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>10</y>
+      <width>131</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/antenna.qml</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="QQuickWidget" name="dist_gauge_right">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>10</y>
+      <width>131</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/antenna.qml</string>
      </url>
     </property>
    </widget>

@@ -11,13 +11,13 @@
 
 #include <math.h>
 
+
 class MyRobot : public QObject {
     Q_OBJECT
 
 
 public:
     MyRobot(QObject* parent);
-    //void MyTcpClient(QObject* parent = 0);
     void doConnect();
     void disConnect();
 
@@ -26,8 +26,15 @@ public:
     void goForward(bool f = true);
     unsigned int getBattery();
 
+    int getSpeed() { return this->forward ? this->speed : -this->speed; };
+    int getDistLeft() { return this->distLeft; };
+    int getDistRight() { return this->distRight; };
+
 signals:
     void updateUI(const QByteArray Data);
+
+/*signals:
+    void updateUI(const QByteArray Data);*/
 
 
 public slots:
@@ -52,6 +59,8 @@ private:
     const float PI = 3.14159265f;
     int speed = 0;
     bool forward = true;
+    int distLeft = 127, distRight = 127;
+
     int battery;
     
     QByteArray DataToSend;
