@@ -10,7 +10,7 @@ namespace UiController {
 
 
         // boutons
-        connect(this->ui->up, SIGNAL(clicked()), this, SLOT(upButton()));
+        connect(this->ui->up, SIGNAL(pressed()), this, SLOT(upButton()));
         connect(this->ui->down, SIGNAL(clicked()), this, SLOT(downButton()));
         connect(this->ui->left, SIGNAL(clicked()), this, SLOT(leftButton()));
         connect(this->ui->right, SIGNAL(clicked()), this, SLOT(rightButton()));
@@ -25,7 +25,7 @@ namespace UiController {
 
         //Camera
         this->ui->View_camera->load(QUrl("http://192.168.1.11:8080/?action=stream"));
-        this->ui->View_camera->setZoomFactor(1.35);
+        this->ui->View_camera->setZoomFactor(1.7);
         this->ui->View_camera->show();
 
         // gauges
@@ -36,10 +36,14 @@ namespace UiController {
         this->distGaugeLeft = new GaugeController(this);
         this->distGaugeRight = new GaugeController(this);
         this->ui->global_gauge->rootContext()->setContextProperty("controller", this->globalGauge);
+        this->distGaugeLeft2 = new GaugeController(this);
+        this->distGaugeRight2 = new GaugeController(this);
         this->ui->speed_gauge->rootContext()->setContextProperty("controller", this->speedGauge);
         this->ui->brakes_gauge->rootContext()->setContextProperty("controller", this->brakesGauge);
         this->ui->dist_gauge_left->rootContext()->setContextProperty("controller", this->distGaugeLeft);
         this->ui->dist_gauge_right->rootContext()->setContextProperty("controller", this->distGaugeRight);
+        this->ui->dist_gauge_left_2->rootContext()->setContextProperty("controller", this->distGaugeLeft2);
+        this->ui->dist_gauge_right_2->rootContext()->setContextProperty("controller", this->distGaugeRight2);
         this->gaugesTimer = new QTimer();
         this->gaugesTimer->setInterval(10);
         this->gaugesTimer->start();
@@ -55,6 +59,9 @@ namespace UiController {
         this->brakesGauge->setValue(this->gamepad->getBrakes());
         this->distGaugeLeft->setValue(this->bot->getDistLeft());
         this->distGaugeRight->setValue(this->bot->getDistRight());
+        this->distGaugeLeft2->setValue(this->bot->getDistLeft2());
+        this->distGaugeRight2->setValue(this->bot->getDistRight2());
+        //this->distGauge->setValue(bot_speed > 0 ? bot_speed : 0);
     }
 
     void UiController::keyPressEvent(QKeyEvent* ev) {

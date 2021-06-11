@@ -28,7 +28,8 @@ public:
     int getSpeed() { return this->forward ? this->speed : -this->speed; };
     int getDistLeft() { return this->distLeft; };
     int getDistRight() { return this->distRight; };
-
+    int getDistLeft2() { return this->distLeft2; };
+    int getDistRight2() { return this->distRight2; };
 
 /*signals:
     void updateUI(const QByteArray Data);*/
@@ -56,7 +57,7 @@ private:
     const float PI = 3.14159265f;
     int speed = 0;
     bool forward = true;
-    int distLeft = 127, distRight = 127;
+    int distLeft = 127, distRight = 127, distLeft2 = 127, distRight2 = 127;
 
     QByteArray DataToSend;
     QByteArray DataReceived;
