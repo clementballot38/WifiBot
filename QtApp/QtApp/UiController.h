@@ -34,7 +34,7 @@ namespace UiController {
         Ui::QtAppClass* ui;
         MyRobot* bot;
         GamepadController* gamepad;
-        GaugeController *speedGauge, *brakesGauge, *distGaugeLeft, *distGaugeRight;
+        GaugeController *globalGauge, *speedGauge, *brakesGauge, *distGaugeLeft, *distGaugeRight;
         void keyPressEvent(QKeyEvent* ev);
         void keyReleaseEvent(QKeyEvent* ev);
 

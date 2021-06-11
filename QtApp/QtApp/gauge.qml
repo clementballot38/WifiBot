@@ -7,6 +7,8 @@ CircularGauge {
     id: gauge
     objectName: "gauge"
     value: controller.value
+    minimumValue: controller.minValue
+    maximumValue: controller.maxValue
 
     style: CircularGaugeStyle {
 

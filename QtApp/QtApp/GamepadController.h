@@ -12,6 +12,8 @@ class GamepadController : QObject {
 
 public:
 	GamepadController(MyRobot* bot, QObject* parent = 0);
+	double getAcceleration() { return this->gazForce * 100; };
+	double getBrakes() { return this->brakesForce * 100; };
 
 private:
 	QGamepad* gamepad;

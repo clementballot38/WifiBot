@@ -29,10 +29,13 @@ namespace UiController {
         this->ui->View_camera->show();
 
         // gauges
+        this->globalGauge = new GaugeController(this);
+        this->globalGauge->setMinValue(-100);
         this->speedGauge = new GaugeController(this);
         this->brakesGauge = new GaugeController(this);
         this->distGaugeLeft = new GaugeController(this);
         this->distGaugeRight = new GaugeController(this);
+        this->ui->global_gauge->rootContext()->setContextProperty("controller", this->globalGauge);
         this->ui->speed_gauge->rootContext()->setContextProperty("controller", this->speedGauge);
         this->ui->brakes_gauge->rootContext()->setContextProperty("controller", this->brakesGauge);
         this->ui->dist_gauge_left->rootContext()->setContextProperty("controller", this->distGaugeLeft);
@@ -47,13 +50,11 @@ namespace UiController {
     void UiController::updateGauges() {
         int bot_speed = (int)((float)(this->bot->getSpeed()) * 100.0f / 240.0f);
 
-        this->speedGauge->setValue(bot_speed > 0 ? bot_speed : 0);
-        this->brakesGauge->setValue(bot_speed < 0 ? -bot_speed : 0);
+        this->globalGauge->setValue(bot_speed);
+        this->speedGauge->setValue(this->gamepad->getAcceleration());
+        this->brakesGauge->setValue(this->gamepad->getBrakes());
         this->distGaugeLeft->setValue(this->bot->getDistLeft());
         this->distGaugeRight->setValue(this->bot->getDistRight());
-
-        qDebug() << this->bot->getDistLeft() << " " << this->bot->getDistRight();
-        //this->distGauge->setValue(bot_speed > 0 ? bot_speed : 0);
     }
 
     void UiController::keyPressEvent(QKeyEvent* ev) {
@@ -93,7 +94,6 @@ namespace UiController {
     }
 
     void UiController::upButton() {
-        qDebug() << "up";
         bot->setSpeed(speed);
         bot->goForward();
     }
