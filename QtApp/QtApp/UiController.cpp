@@ -1,49 +1,56 @@
 #include "UiController.h"
 
 namespace UiController {
-    UiController::UiController(Ui::QtAppClass* _ui)
-        : ui(_ui), speed(0) {
+    UiController::UiController(Ui::QtAppClass* _ui, QString ip)
+        : ui(_ui) {
 
 
-        bot = new MyRobot(this);
+        bot = new MyRobot(this, ip);
         gamepad = new GamepadController(bot);
 
 
-        // boutons
+        // connect the buttons to the events
         connect(this->ui->up, SIGNAL(pressed()), this, SLOT(upButton()));
-        connect(this->ui->down, SIGNAL(clicked()), this, SLOT(downButton()));
-        connect(this->ui->left, SIGNAL(clicked()), this, SLOT(leftButton()));
-        connect(this->ui->right, SIGNAL(clicked()), this, SLOT(rightButton()));
-        connect(this->ui->stop, SIGNAL(clicked()), this, SLOT(stopButton()));
+        connect(this->ui->down, SIGNAL(pressed()), this, SLOT(downButton()));
+        connect(this->ui->left, SIGNAL(pressed()), this, SLOT(leftButton()));
+        connect(this->ui->right, SIGNAL(pressed()), this, SLOT(rightButton()));
         
-        connect(this->ui->up, SIGNAL(clicked()), this, SLOT(upButton()));
-        connect(this->ui->down, SIGNAL(clicked()), this, SLOT(downButton()));
-        connect(this->ui->left, SIGNAL(clicked()), this, SLOT(leftButton()));
-        connect(this->ui->right, SIGNAL(clicked()), this, SLOT(rightButton()));
-        connect(this->ui->stop, SIGNAL(clicked()), this, SLOT(stopButton()));
+        connect(this->ui->up, SIGNAL(released()), this, SLOT(upButton()));
+        connect(this->ui->down, SIGNAL(released()), this, SLOT(downButton()));
+        connect(this->ui->left, SIGNAL(released()), this, SLOT(leftButton()));
+        connect(this->ui->right, SIGNAL(released()), this, SLOT(rightButton()));
 
 
-        //Camera
-        this->ui->View_camera->load(QUrl("http://192.168.1.11:8080/?action=stream"));
+        // start the camera view
+        this->ui->View_camera->load(QUrl("http://" + ip + ":8080/?action=stream"));
         this->ui->View_camera->setZoomFactor(1.7);
         this->ui->View_camera->show();
 
-        // gauges
+
+        // connect the gauges to their controller
         this->globalGauge = new GaugeController(this);
         this->globalGauge->setMinValue(-100);
-        this->speedGauge = new GaugeController(this);
-        this->brakesGauge = new GaugeController(this);
-        this->distGaugeLeft = new GaugeController(this);
-        this->distGaugeRight = new GaugeController(this);
         this->ui->global_gauge->rootContext()->setContextProperty("controller", this->globalGauge);
-        this->distGaugeLeft2 = new GaugeController(this);
-        this->distGaugeRight2 = new GaugeController(this);
+
+        this->speedGauge = new GaugeController(this);
         this->ui->speed_gauge->rootContext()->setContextProperty("controller", this->speedGauge);
+
+        this->brakesGauge = new GaugeController(this);
         this->ui->brakes_gauge->rootContext()->setContextProperty("controller", this->brakesGauge);
+
+        this->distGaugeLeft = new GaugeController(this);
         this->ui->dist_gauge_left->rootContext()->setContextProperty("controller", this->distGaugeLeft);
+
+        this->distGaugeRight = new GaugeController(this);
         this->ui->dist_gauge_right->rootContext()->setContextProperty("controller", this->distGaugeRight);
+
+        this->distGaugeLeft2 = new GaugeController(this);
         this->ui->dist_gauge_left_2->rootContext()->setContextProperty("controller", this->distGaugeLeft2);
+
+        this->distGaugeRight2 = new GaugeController(this);
         this->ui->dist_gauge_right_2->rootContext()->setContextProperty("controller", this->distGaugeRight2);
+        
+        // start the timer to update the gauges periodically
         this->gaugesTimer = new QTimer();
         this->gaugesTimer->setInterval(10);
         this->gaugesTimer->start();
@@ -51,78 +58,85 @@ namespace UiController {
     }
 
 
+    // update the gauges
     void UiController::updateGauges() {
         int bot_speed = (int)((float)(this->bot->getSpeed()) * 100.0f / 240.0f);
 
         this->globalGauge->setValue(bot_speed);
         this->speedGauge->setValue(this->gamepad->getAcceleration());
         this->brakesGauge->setValue(this->gamepad->getBrakes());
+
         this->distGaugeLeft->setValue(this->bot->getDistLeft());
         this->distGaugeRight->setValue(this->bot->getDistRight());
         this->distGaugeLeft2->setValue(this->bot->getDistLeft2());
         this->distGaugeRight2->setValue(this->bot->getDistRight2());
-        //this->distGauge->setValue(bot_speed > 0 ? bot_speed : 0);
     }
 
+
+    // called when a key is presses
     void UiController::keyPressEvent(QKeyEvent* ev) {
         switch (ev->key()) {
-        // Choix de la direction
         case Qt::Key_Z:
-            bot->setSpeed(240);
-            bot->goForward();
+            this->upButton();
             break;
         case Qt::Key_S:
-            bot->setSpeed(240);
-            bot->goForward(false);
+            this->downButton();
             break;
         case Qt::Key_Q:
-            bot->setSpeed(240);
-            bot->turn(-45);
-            bot->goForward();
+            this->leftButton();
             break;
         case Qt::Key_D:
-            bot->setSpeed(240);
-            bot->turn(45);
-            bot->goForward();
+            this->rightButton();
             break;
         }
     }
 
+
+    // called when a key is released
     void UiController::keyReleaseEvent(QKeyEvent* ev) {
         switch (ev->key()) {
-        // Choix de la direction
         case Qt::Key_Z:
         case Qt::Key_S:
         case Qt::Key_Q:
         case Qt::Key_D:
-            bot->setSpeed(0);
+            this->stopBot();
             break;
         }
     }
 
+
+    // called when the 'up' button is presses
     void UiController::upButton() {
-        bot->setSpeed(speed);
+        bot->setSpeed(240);
+        bot->turn(0);
         bot->goForward();
     }
 
+    // called when the 'down' button is pressed
     void UiController::downButton() {
-        bot->setSpeed(speed);
+        bot->setSpeed(24);
+        bot->turn(0);
         bot->goForward(false);
     }
 
+    // called when the 'left' button is presses
     void UiController::leftButton() {
-        bot->setSpeed(speed);
+        bot->setSpeed(240);
         bot->turn(-45);
         bot->goForward();
     }
 
+    // called when the 'right' button is pressed
     void UiController::rightButton() {
-        bot->setSpeed(speed);
+        bot->setSpeed(240);
         bot->turn(45);
         bot->goForward();
     }
 
-    void UiController::stopButton() {
+
+    // stops the bot
+    void UiController::stopBot() {
         bot->setSpeed(0);
+        bot->turn(0);
     }
 }

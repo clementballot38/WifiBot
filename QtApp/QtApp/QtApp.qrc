@@ -1,9 +1,6 @@
 <RCC>
-  <qresource prefix="/QtApp">
-    <file>gauge.qml</file>
-    <file>antenna.qml</file>
-  </qresource>
-  <qresource prefix="/">
-    <file>main.qml</file>
-  </qresource>
+    <qresource prefix="/QtApp">
+        <file>gauge.qml</file>
+        <file>antenna.qml</file>
+    </qresource>
 </RCC>

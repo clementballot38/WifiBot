@@ -4,12 +4,20 @@
 #include <QObject>
 #include <QTcpSocket>
 #include <QAbstractSocket>
-#include <QDebug>
 #include <QTimer>
-#include <QMutex>
 #include <QMessageBox>
-
 #include <math.h>
+
+
+
+/*
+ * MyRobot class
+ * -----------------------
+ *
+ * This class connects to a wifibot, controls it, fetches datas from it and manages the connection to it.
+ * Original code : https://github.com/dginhac/wifibot/tree/master/qt
+ */
+
 
 
 class MyRobot : public QObject {
@@ -17,51 +25,52 @@ class MyRobot : public QObject {
 
 
 public:
-    MyRobot(QObject* parent);
-    void doConnect();
-    void disConnect();
+    MyRobot(QObject* parent, QString _ip);  // constructor
+    void doConnect();   // connect to the bot
+    void disConnect();  // disconnect from the bot
 
-    void setSpeed(int val);
-    void turn(float angle);
-    void goForward(bool f = true);
+    void setSpeed(int val);         // update the bot's speed
+    void turn(float angle);         // update the bot's angle
+    void goForward(bool f = true);  // update the bot's direction
 
-    int getSpeed() { return this->forward ? this->speed : -this->speed; };
-    int getDistLeft() { return this->distLeft; };
-    int getDistRight() { return this->distRight; };
-    int getDistLeft2() { return this->distLeft2; };
-    int getDistRight2() { return this->distRight2; };
+    int getSpeed() { return this->forward ? this->speed : -this->speed; };  // get the current bot's speed
+    int getDistLeft() { return this->distLeft; };       // get the left IR sensor value
+    int getDistRight() { return this->distRight; };     // get the right IR sensor value
+    int getDistLeft2() { return this->distLeft2; };     // get the second left IR sensor value
+    int getDistRight2() { return this->distRight2; };   // get the second right IR sensor value
 
 /*signals:
     void updateUI(const QByteArray Data);*/
 
 
 public slots:
-    void connected();
-    void disconnected();
+    void connected();       // called when the connection is established
+    void disconnected();    // called when the connection is closed
 
-    void bytesWritten(qint64 bytes);
-    void readyRead();
-    void keepAlive();
+    void bytesWritten(qint64 bytes);    // called when datas are sent to the bot
+    void readyRead();   // called when datas are received
+    void keepAlive();   // called by a timer to keep the connection alive
 
 
 private:
-    QTcpSocket* socket;
-    QTimer* TimerEnvoi;
-    quint16 crc16(QByteArray buffer);
+    QTcpSocket* socket;                 // connection socket
+    QTimer* TimerEnvoi;                 // timer to keep the connection alive
+    quint16 crc16(QByteArray buffer);   // calculate data's CRC16
 
-    void createData(uint left_speed, uint right_speed, bool forward = true, bool control_speed = false);
-    void sendMessage();
-    void receiveMessage();
+    QString ip;     // bot's IP adress
 
-    float dirAngle = 0.0f;
-    const float PI = 3.14159265f;
-    int speed = 0;
-    bool forward = true;
-    int distLeft = 127, distRight = 127, distLeft2 = 127, distRight2 = 127;
+    void createData(uint left_speed, uint right_speed, bool forward = true, bool control_speed = false);    // create datas from given parameters
+    void sendMessage();     // send datas to the bot
+    void receiveMessage();  // receive datas from the bot
 
-    QByteArray DataToSend;
-    QByteArray DataReceived;
-    QMutex Mutex;
+    float dirAngle = 0.0f;          // current angle
+    const float PI = 3.14159265f;   // pi
+    int speed = 0;                  // current speed
+    bool forward = true;            // current direction
+    int distLeft = 127, distRight = 127, distLeft2 = 127, distRight2 = 127; // current IR sensors values
+
+    QByteArray DataToSend;      // current datas to send to the bot
+    QByteArray DataReceived;    // current datas received from the bot
 };
 
 #endif // MYROBOT_H

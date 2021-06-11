@@ -1,8 +1,10 @@
 #include "MyRobot.h"
 
-MyRobot::MyRobot(QObject* parent) : QObject(parent) {
+
+// constructor
+MyRobot::MyRobot(QObject* parent, QString _ip) : QObject(parent), ip(_ip) {
     
-    // OG code
+    // initialize the datas sent to the bot
     DataToSend.resize(9);
     DataToSend[0] = 0xFF;
     DataToSend[1] = 0x07;
@@ -15,42 +17,45 @@ MyRobot::MyRobot(QObject* parent) : QObject(parent) {
     DataToSend[8] = 0x0;
     DataReceived.resize(21);
 
+    // timer to automatically send the updated datas to the bot and keep the connection alive
     TimerEnvoi = new QTimer();
     TimerEnvoi->setInterval(100);
-    connect(TimerEnvoi, SIGNAL(timeout()), this,        SLOT(keepAlive()));
+    connect(TimerEnvoi, SIGNAL(timeout()), this, SLOT(keepAlive()));
 
+    // connect to the bot
     this->doConnect();
 }
 
+// periodically send datas to the bot to keep the connection alive
 void MyRobot::keepAlive() {
     sendMessage();
     receiveMessage();
 }
 
+// send datas to the bot
 void MyRobot::sendMessage() {
     socket->write(DataToSend);
     socket->flush();
 }
 
+// fetch datas from the bot
 void MyRobot::receiveMessage() {
     DataReceived = socket->readAll();
-   // qDebug(DataReceived);
-    //this->battery = (((unsigned int)((unsigned char)recv[2])) * 100.0 / 255.0);
-   /* this->cpt_ir1 = (int)recv[3];
-    this->cpt_ir2 = (int)recv[4];*/
 }
 
-
+// connect to the bot
 void MyRobot::doConnect() {
-    socket = new QTcpSocket(this); // socket creation
+    // create a socket to send & receive datas and connect its events to signals to handle them
+    socket = new QTcpSocket(this);
     connect(socket, SIGNAL(connected()), this, SLOT(connected()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(bytesWritten(qint64)));
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
-    qDebug() << "Connecting"; // this is not blocking call
-    socket->connectToHost("192.168.1.11", 15020); // connection to wifibot with TCP
+    qDebug() << "Connecting";
+    socket->connectToHost(this->ip, 15020); // connecto to the bot with TCP
     if (!socket->waitForConnected(5000)) {
+        // bot not found, show error message
         qDebug() << "Error: " << socket->errorString();
         QMessageBox messageBox;
         messageBox.critical(0, "Error", "Timeout exceed for bot connection !");
@@ -58,15 +63,18 @@ void MyRobot::doConnect() {
         return;
     }
 
+    // bot connected successfully so start the timer
     qDebug("Connected, starting");
     TimerEnvoi->start();
 }
 
+// disconnect from the bot
 void MyRobot::disConnect() {
     TimerEnvoi->stop();
     socket->close();
 }
 
+// create the data packet with the given speeds & direction
 void MyRobot::createData(uint left_speed, uint right_speed, bool forward, bool control_speed)
 {
     DataToSend.clear();
@@ -94,7 +102,7 @@ void MyRobot::createData(uint left_speed, uint right_speed, bool forward, bool c
     DataToSend.append((char)(crc >> 8));
 }
 
-
+// calculate the CRC16 of the given packet
 quint16 MyRobot::crc16(QByteArray byteArray) {
     unsigned char* data = (unsigned char*)byteArray.constData();
     quint16 crc = 0xFFFF;
@@ -111,31 +119,32 @@ quint16 MyRobot::crc16(QByteArray byteArray) {
     return crc;
 }
 
+// event called when the bot is connected
 void MyRobot::connected() {
     qDebug() << "connected..."; // Hey server, tell me about you.
 }
 
+// event called when the bot is disconnected
 void MyRobot::disconnected() {
     qDebug() << "disconnected...";
 }
 
+// event called when datas are sent to the bot
 void MyRobot::bytesWritten(qint64 bytes) {
     //qDebug() << bytes << " bytes written : " << DataToSend;
 }
 
+// event called when datas are received
 void MyRobot::readyRead() {
     DataReceived = socket->readAll();
-    //qDebug() << "Read : " << DataReceived;
     this->distLeft = (int)DataReceived[3];
     this->distLeft2 = (int)DataReceived[4];
     this->distRight = (int)DataReceived[11];
     this->distRight2 = (int)DataReceived[12];
 }
 
-
-
+// update the bot's speed
 void MyRobot::setSpeed(int val) {
-    qDebug() << "set speed " << val;
     this->speed = val;
     int left_speed, right_speed;
     if (this->forward) {
@@ -149,13 +158,15 @@ void MyRobot::setSpeed(int val) {
     this->createData(left_speed, right_speed, this->forward);
 }
 
-// -90 : full left, 0 : straight, +90 : full right
+// update the bot's direction
 void MyRobot::turn(float angle) {
+    // -90 : full left, 0 : straight, +90 : full right
     if (angle >= -90 && angle <= 90)
         this->dirAngle = angle;
     this->setSpeed(this->speed);
 }
 
+// update the bot's direction
 void MyRobot::goForward(bool f) {
     this->forward = f;
 }

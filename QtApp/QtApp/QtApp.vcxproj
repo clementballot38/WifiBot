@@ -116,7 +116,6 @@
   <ItemGroup>
     <None Include="antenna.qml" />
     <None Include="gauge.qml" />
-    <None Include="main.qml" />
     <None Include="res\admin.svg" />
   </ItemGroup>
   <ItemGroup>
