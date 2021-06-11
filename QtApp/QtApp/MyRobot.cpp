@@ -23,7 +23,6 @@ MyRobot::MyRobot(QObject* parent) : QObject(parent) {
 }
 
 void MyRobot::keepAlive() {
-    //createData(200, 0);
     sendMessage();
     receiveMessage();
 }
@@ -35,9 +34,9 @@ void MyRobot::sendMessage() {
 
 void MyRobot::receiveMessage() {
     DataReceived = socket->readAll();
-    qDebug(DataReceived);
-    /*this->battery = (((unsigned int)((unsigned char)recv[2])) * 100.0 / 255.0);
-    this->cpt_ir1 = (int)recv[3];
+   // qDebug(DataReceived);
+    //this->battery = (((unsigned int)((unsigned char)recv[2])) * 100.0 / 255.0);
+   /* this->cpt_ir1 = (int)recv[3];
     this->cpt_ir2 = (int)recv[4];*/
 }
 
@@ -84,10 +83,11 @@ void MyRobot::createData(uint left_speed, uint right_speed, bool forward, bool c
     DataToSend.append((char)right_speed);
     DataToSend.append((char)0x00);
 
+    // char 7
     if(forward)
-        DataToSend.append((char)0b01010000);
+        DataToSend.append((char)0b01011111);
     else
-        DataToSend.append((char)0b00000000);
+        DataToSend.append((char)0b00001111);
 
     quint16 crc = crc16(DataToSend);
     DataToSend.append((char)crc);
@@ -120,18 +120,22 @@ void MyRobot::disconnected() {
 }
 
 void MyRobot::bytesWritten(qint64 bytes) {
-    qDebug() << bytes << " bytes written : " << DataToSend;
+    //qDebug() << bytes << " bytes written : " << DataToSend;
 }
 
 void MyRobot::readyRead() {
     DataReceived = socket->readAll();
-    // emit updateUI(DataReceived);
-    qDebug() << "Read : " << DataReceived;
+    //qDebug() << "Read : " << DataReceived;
+    this->distLeft = (int)DataReceived[3];
+    this->distLeft2 = (int)DataReceived[4];
+    this->distRight = (int)DataReceived[11];
+    this->distRight2 = (int)DataReceived[12];
 }
 
 
 
 void MyRobot::setSpeed(int val) {
+    qDebug() << "set speed " << val;
     this->speed = val;
     int left_speed, right_speed;
     if (this->forward) {

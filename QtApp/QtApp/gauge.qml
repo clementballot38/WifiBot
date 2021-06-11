@@ -6,9 +6,12 @@ import QtQuick.Controls.Styles 1.4
 CircularGauge {
     id: gauge
     objectName: "gauge"
-    value: window.getX()
+    value: controller.value
+    minimumValue: controller.minValue
+    maximumValue: controller.maxValue
 
     style: CircularGaugeStyle {
+
         needle: Rectangle {
             y: outerRadius * 0.15
             implicitWidth: outerRadius * 0.03

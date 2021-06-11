@@ -3,16 +3,6 @@
 
 GamepadController::GamepadController(MyRobot* bot, QObject* parent)
 	: robot(bot), QObject(parent), gamepad(0), gazForce(0), brakesForce(0) {
-	/*auto gamepads = QGamepadManager::instance()->connectedGamepads();
-	qDebug() << gamepads;
-	if (gamepads.isEmpty()) {
-		qDebug() << "No gamepad detected";
-		return;
-	}
-	qDebug() << "Using first detected controller";*/
-
-
-	//gamepad = new QGamepad(*gamepads.begin(), this);
 	gamepad = new QGamepad(0, this);
 
 	connect(gamepad, SIGNAL(axisLeftXChanged(double)), this, SLOT(moveX(double)));
@@ -38,7 +28,6 @@ void GamepadController::changeSpeed(double val) {
 }
 void GamepadController::updateSpeed() {
 	int s = (int)(240 * (this->gazForce - this->brakesForce));
-	qDebug() << s;
 	robot->setSpeed(abs(s));
 	robot->goForward(s >= 0);
 }

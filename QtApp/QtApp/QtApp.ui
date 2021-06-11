@@ -6,27 +6,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>820</width>
-    <height>570</height>
+    <width>1080</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>820</width>
-    <height>570</height>
+    <width>1080</width>
+    <height>720</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>820</width>
-    <height>570</height>
+    <width>1080</width>
+    <height>720</height>
    </size>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>QtApp</string>
+   <string>WifiBot</string>
+  </property>
+  <property name="toolTipDuration">
+   <number>-1</number>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -39,8 +42,8 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>541</width>
-     <height>371</height>
+     <width>791</width>
+     <height>451</height>
     </rect>
    </property>
    <property name="cursor">
@@ -74,8 +77,8 @@ QGroupBox::title {
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>521</width>
-      <height>331</height>
+      <width>771</width>
+      <height>411</height>
      </rect>
     </property>
     <property name="url">
@@ -88,10 +91,10 @@ QGroupBox::title {
   <widget class="QGroupBox" name="controls">
    <property name="geometry">
     <rect>
-     <x>570</x>
-     <y>20</y>
+     <x>830</x>
+     <y>10</y>
      <width>231</width>
-     <height>371</height>
+     <height>461</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -227,9 +230,9 @@ border-radius: 15px;</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>399</y>
-     <width>781</width>
-     <height>151</height>
+     <y>490</y>
+     <width>1041</width>
+     <height>211</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -255,13 +258,34 @@ QGroupBox::title {
    <property name="title">
     <string>Informations</string>
    </property>
+   <widget class="QQuickWidget" name="global_gauge">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>10</y>
+      <width>151</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/gauge.qml</string>
+     </url>
+    </property>
+   </widget>
    <widget class="QQuickWidget" name="speed_gauge">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>10</y>
-      <width>130</width>
-      <height>130</height>
+      <x>270</x>
+      <y>130</y>
+      <width>71</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="resizeMode">
@@ -270,6 +294,105 @@ QGroupBox::title {
     <property name="source">
      <url>
       <string>qrc:/QtApp/gauge.qml</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="QQuickWidget" name="dist_gauge_left">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>20</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">transform: rotate(45deg);</string>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/antenna.qml</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="QQuickWidget" name="dist_gauge_right">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>20</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/antenna.qml</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="QQuickWidget" name="brakes_gauge">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>130</y>
+      <width>71</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/gauge.qml</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="QQuickWidget" name="dist_gauge_left_2">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>150</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">transform: rotate(45deg);</string>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/antenna.qml</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="QQuickWidget" name="dist_gauge_right_2">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>150</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/antenna.qml</string>
      </url>
     </property>
    </widget>
