@@ -11,19 +11,24 @@ namespace QtApp {
         gamepad = new GamepadController(bot);
 
 
-        connect(ui.up, SIGNAL(clicked()), this, SLOT(upButton()));
-        connect(ui.down, SIGNAL(clicked()), this, SLOT(downButton()));
-        connect(ui.left, SIGNAL(clicked()), this, SLOT(leftButton()));
-        connect(ui.right, SIGNAL(clicked()), this, SLOT(rightButton()));
-        
-
-        
+        connect(ui.up, SIGNAL(pressed()), this, SLOT(upButton()));
+        connect(ui.down, SIGNAL(pressed()), this, SLOT(downButton()));
+        connect(ui.left, SIGNAL(pressed()), this, SLOT(leftButton()));
+        connect(ui.right, SIGNAL(pressed()), this, SLOT(rightButton()));
+       
+       
         connect(ui.up, SIGNAL(released()), this, SLOT(stopButton()));
         connect(ui.down, SIGNAL(released()), this, SLOT(stopButton()));
         connect(ui.left, SIGNAL(released()), this, SLOT(stopButton()));
         connect(ui.right, SIGNAL(released()), this, SLOT(stopButton()));
        
 
+
+
+        connect(ui.cam_down, SIGNAL(pressed()), this, SLOT(downCamera()));
+        connect(ui.cam_up, SIGNAL(pressed()), this, SLOT(upCamera()));
+        connect(ui.cam_left, SIGNAL(pressed()), this, SLOT(leftCamera()));
+        connect(ui.cam_right, SIGNAL(pressed()), this, SLOT(rightCamera()));
         //connect(ui.speed_slider, SIGNAL(valueChanged()), this, SLOT(setSpeed(int)));
 
 
@@ -73,7 +78,7 @@ namespace QtApp {
         // Choix de la direction
         case Qt::Key_Z:
             bot->setSpeed(240);
-            bot->goForward();
+            bot->goForward(false);
             break;
         case Qt::Key_S:
             bot->setSpeed(240);
@@ -100,7 +105,7 @@ namespace QtApp {
             break;
 
         case Qt::Key_H:
-            //déplacement caméra gauche
+            //déplacement caméra droite
             request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=-100"));
             manager->get(request);
 
@@ -217,12 +222,33 @@ namespace QtApp {
 
         QString myStyleSheet = QString(" QProgressBar::chunk { background: %1; }").arg(c);
 
-        ui.progressBar->setStyleSheet(myStyleSheet);
+        ui.progressBar->setStyleSheet("background-color:black;");
         ui.progressBar->setValue(percent);
 
     }
 
 
+    void QtApp::downCamera()
+    {
+        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=100"));
+        manager->get(request);
+    }
+
+    void QtApp::upCamera()
+    {
+        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=-100"));
+        manager->get(request);
+    }
+    void QtApp::leftCamera()
+    {
+        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=100"));
+        manager->get(request);
+    }
+    void QtApp::rightCamera()
+    {
+        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=-100"));
+        manager->get(request);
+    }
 
 
 

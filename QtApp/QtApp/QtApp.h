@@ -49,5 +49,9 @@ namespace QtApp {
         void stopButton();
         void setSpeed(int val);
         void battStatusChanged(int percent);
+        void downCamera();
+        void upCamera();
+        void leftCamera();
+        void rightCamera();
     };
 }
