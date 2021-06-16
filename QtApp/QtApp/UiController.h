@@ -6,7 +6,7 @@
 #include <QMessageBox>
 #include <ui_QtApp.h>
 #include <QTimer>
-
+#include <QNetworkRequest>
 #include "MyRobot.h";
 #include "GamepadController.h";
 #include "GaugeController.h";
@@ -34,10 +34,12 @@ namespace UiController {
         Ui::QtAppClass* ui;
         MyRobot* bot;
         GamepadController* gamepad;
-        GaugeController *speedGauge, *brakesGauge, *distGaugeLeft, *distGaugeRight;
+        GaugeController *speedGauge, *brakesGauge, *distGaugeLeft, *distGaugeRight, *batterieController;
         void keyPressEvent(QKeyEvent* ev);
         void keyReleaseEvent(QKeyEvent* ev);
-
+        QNetworkAccessManager* Camera;
+        QNetworkRequest request;
+        QNetworkAccessManager* manager;
     private slots:
         void upButton();
         void downButton();
@@ -45,5 +47,9 @@ namespace UiController {
         void rightButton();
         void stopButton();
         void updateGauges();
+        void downCamera();
+        void upCamera();
+        void leftCamera();
+        void rightCamera();
     };
 }

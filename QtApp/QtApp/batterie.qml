@@ -1,8 +1,8 @@
 import QtQuick 2.3
 
 Rectangle {
-    width: 400
-    height: 400
+    width: 60
+    height: 100
     color: Qt.rgba(0.2, 0.2, 0.2, 1)
     property int value: controller.value
 
@@ -27,13 +27,38 @@ Rectangle {
 
 
             ctx.beginPath();
-            if(controller.value<40)
-            ctx.rect(10, 10, 100, 100);
-
-            else 
-            ctx.rect(10, 30,100,100);
+            ctx.rect(0, 100-controller.value, 60, controller.value);
+            if (controller.value<25) {
             ctx.fillStyle="red";
-            ctx.fill;
+            }
+            else if (controller.value<50)
+            {
+             ctx.fillStyle="orange";
+            }
+            else if (controller.value>=50)
+            {
+             
+            ctx.fillStyle="green";
+            }
+           
+            ctx.fill();
+          
+
+          for (var i = 1; i < 10; i++)  {
+                console.log(i)
+                 ctx.beginPath();
+            ctx.moveTo(0,i*10);
+            ctx.lineTo(60,i*10);
+            
+            ctx.strokeStyle="black";
+            ctx.stroke();
+            }
+           
+
+
+            
+            
+
 
 
 
