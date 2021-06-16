@@ -40,14 +40,16 @@ namespace UiController {
 
 
     private:
-        QTimer* gaugesTimer;        // timer used to update the gauges periodically
-        Ui::QtAppClass* ui;         // attached UI
-        MyRobot* bot;               // attached bot
-        GamepadController* gamepad; // attached gamepad
-        GaugeController *globalGauge, *speedGauge, *brakesGauge, *distGaugeLeft, *distGaugeRight, *distGaugeLeft2, *distGaugeRight2, *batterieController;    // attached gauges
+        QTimer* gaugesTimer;                    // timer used to update the gauges periodically
+        Ui::QtAppClass* ui;                     // attached UI
+        MyRobot* bot;                           // attached bot
+        GamepadController* gamepad;             // attached gamepad
         void keyPressEvent(QKeyEvent* ev);      // override the QObject keyPress event to handle keyboard controls
         void keyReleaseEvent(QKeyEvent* ev);    // override the QObject keyRelease event to handle keyboard controls
-        void stopBot();     // stops the bot
+        void updateUI(bool connected);          // updates visible elements & button text
+        QNetworkRequest request;                // requests sent to the bot's camera
+        QNetworkAccessManager* manager;         // manages the requests sent to the bot's camera
+        GaugeController* globalGauge, * speedGauge, * brakesGauge, * distGaugeLeft, * distGaugeRight, * distGaugeLeft2, * distGaugeRight2, * batterieController;    // attached gauges
 
 
     private slots:
@@ -55,10 +57,12 @@ namespace UiController {
         void downButton();      // called when the 'down' button is pressed
         void leftButton();      // called when the 'left' button is pressed
         void rightButton();     // called when the 'right' button is pressed
+        void stopBot();         // stops the bot
         void updateGauges();    // called when the gauges are updated
-        void upCamera();
-        void downCamera();
-        void leftCamera();
-        void rightCamera();
+        void upCamera();        // called when the 'up' camera button is pressed
+        void downCamera();      // called when the 'down' camera button is pressed
+        void leftCamera();      // called when the 'left' camera button is pressed
+        void rightCamera();     // called when the 'right' camera button is pressed
+        void manageConnexion(); // called when the '<dis>connect' button is pressed
     };
 }

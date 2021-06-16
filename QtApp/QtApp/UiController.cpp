@@ -15,21 +15,41 @@ namespace UiController {
         connect(this->ui->left, SIGNAL(pressed()), this, SLOT(leftButton()));
         connect(this->ui->right, SIGNAL(pressed()), this, SLOT(rightButton()));
 
-        connect(this->ui->up, SIGNAL(released()), this, SLOT(stopButton()));
-        connect(this->ui->down, SIGNAL(released()), this, SLOT(stopButton()));
-        connect(this->ui->left, SIGNAL(released()), this, SLOT(stopButton()));
-        connect(this->ui->right, SIGNAL(released()), this, SLOT(stopButton()));
+        connect(this->ui->up, SIGNAL(released()), this, SLOT(stopBot()));
+        connect(this->ui->down, SIGNAL(released()), this, SLOT(stopBot()));
+        connect(this->ui->left, SIGNAL(released()), this, SLOT(stopBot()));
+        connect(this->ui->right, SIGNAL(released()), this, SLOT(stopBot()));
 
-        connect(ui->cam_down, SIGNAL(pressed()), this, SLOT(downCamera()));
-        connect(ui->cam_up, SIGNAL(pressed()), this, SLOT(upCamera()));
-        connect(ui->cam_left, SIGNAL(pressed()), this, SLOT(leftCamera()));
-        connect(ui->cam_right, SIGNAL(pressed()), this, SLOT(rightCamera()));
+        connect(this->ui->cam_down, SIGNAL(clicked()), this, SLOT(downCamera()));
+        connect(this->ui->cam_up, SIGNAL(clicked()), this, SLOT(upCamera()));
+        connect(this->ui->cam_left, SIGNAL(clicked()), this, SLOT(leftCamera()));
+        connect(this->ui->cam_right, SIGNAL(clicked()), this, SLOT(rightCamera()));
+
+        connect(this->ui->connect, SIGNAL(clicked()), this, SLOT(manageConnexion()));
+
+
+        // set elements
+        this->updateUI(false);
 
 
         // start the camera view
         this->ui->View_camera->load(QUrl("http://" + ip + ":8080/?action=stream"));
         this->ui->View_camera->setZoomFactor(1.7);
         this->ui->View_camera->show();
+
+
+        // start the manager to control the camera
+        this->manager = new QNetworkAccessManager();
+        QObject::connect(this->manager, &QNetworkAccessManager::finished,
+            this, [=](QNetworkReply* reply) {
+                if (reply->error()) {
+                    qDebug() << reply->errorString();
+                    return;
+                }
+                QString answer = reply->readAll();
+                qDebug() << answer;
+            }
+        );
 
 
         // connect the gauges to their controller
@@ -49,7 +69,6 @@ namespace UiController {
         this->distGaugeRight = new GaugeController(this);
         this->ui->dist_gauge_right->rootContext()->setContextProperty("controller", this->distGaugeRight);
         
-
         this->distGaugeLeft2 = new GaugeController(this);
         this->ui->dist_gauge_left_2->rootContext()->setContextProperty("controller", this->distGaugeLeft2);
 
@@ -70,18 +89,37 @@ namespace UiController {
 
     // update the gauges
     void UiController::updateGauges() {
-        int bot_speed = (int)((float)(this->bot->getSpeed()) * 100.0f / 240.0f);
+        if (this->bot->isConnected()) {
+            // normal mode, use real values to update UI
+            int bot_speed = (int)((float)(this->bot->getSpeed()) * 100.0f / 240.0f);
 
-        this->globalGauge->setValue(bot_speed);
-        this->speedGauge->setValue(this->gamepad->getAcceleration());
-        this->brakesGauge->setValue(this->gamepad->getBrakes());
+            this->globalGauge->setValue(bot_speed);
+            this->speedGauge->setValue(this->gamepad->getAcceleration());
+            this->brakesGauge->setValue(this->gamepad->getBrakes());
 
-        this->distGaugeLeft->setValue(this->bot->getDistLeft());
-        this->distGaugeRight->setValue(this->bot->getDistRight());
-        this->distGaugeLeft2->setValue(this->bot->getDistLeft2());
-        this->distGaugeRight2->setValue(this->bot->getDistRight2());
-        
-        this->batterieController->setValue(bot_speed < 0 ? -bot_speed : 0);
+            this->distGaugeLeft->setValue(this->bot->getDistLeft());
+            this->distGaugeRight->setValue(this->bot->getDistRight());
+            this->distGaugeLeft2->setValue(this->bot->getDistLeft2());
+            this->distGaugeRight2->setValue(this->bot->getDistRight2());
+
+            this->batterieController->setValue(bot_speed < 0 ? -bot_speed : 0);
+        }
+        else {
+            // demo mode, use controls to update UI
+            int bot_speed = (int)((float)(this->bot->getSpeed()) * 100.0f / 240.0f);
+
+            this->globalGauge->setValue(bot_speed);
+            this->speedGauge->setValue(this->gamepad->getAcceleration());
+            this->brakesGauge->setValue(this->gamepad->getBrakes());
+
+            int d = -(this->gamepad->getBrakes() - 50) * 2;
+            this->distGaugeLeft->setValue(d);
+            this->distGaugeRight->setValue(d);
+            this->distGaugeLeft2->setValue(d);
+            this->distGaugeRight2->setValue(d);
+
+            this->batterieController->setValue(this->gamepad->getAcceleration());
+        }
     }
 
 
@@ -100,7 +138,19 @@ namespace UiController {
         case Qt::Key_D:
             this->rightButton();
             break;
-      
+
+        case Qt::Key_O:
+            this->upCamera();
+            break;
+        case Qt::Key_K:
+            this->leftCamera();
+            break;
+        case Qt::Key_L:
+            this->downCamera();
+            break;
+        case Qt::Key_M:
+            this->rightCamera();
+            break;
         }
     }
 
@@ -127,7 +177,7 @@ namespace UiController {
 
     // called when the 'down' button is pressed
     void UiController::downButton() {
-        bot->setSpeed(24);
+        bot->setSpeed(240);
         bot->turn(0);
         bot->goForward(false);
     }
@@ -154,24 +204,50 @@ namespace UiController {
     }
 
 
-    void UiController::upCamera()
-    {
+    // called when the 'up' camera button is pressed
+    void UiController::upCamera() {
         request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=-100"));
         manager->get(request);
     }
-    void UiController::leftCamera()
-    {
+
+    // called when the 'down' camera button is pressed
+    void UiController::downCamera() {
+        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=100"));
+        manager->get(request);
+    }
+
+    // called when the 'left' camera button is pressed
+    void UiController::leftCamera() {
         request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=100"));
         manager->get(request);
     }
-    void UiController::rightCamera()
-    {
+
+    // called when the 'right' camera button is pressed
+    void UiController::rightCamera() {
         request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=-100"));
         manager->get(request);
     }
-    void UiController::downCamera()
-    {
-        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=100"));
-        manager->get(request);
+
+
+    // called when the '<dis>connect' button is pressed
+    void UiController::manageConnexion() {
+        if (this->bot->isConnected())
+            this->bot->disConnect();
+        else
+            this->bot->doConnect();
+
+        this->updateUI(this->bot->isConnected());
+    }
+
+    void UiController::updateUI(bool connected) {
+        if (connected) {
+            this->ui->connect->setText("Disconnect");
+            this->ui->camera_container->setVisible(true);
+            this->ui->view_disconnected->setVisible(false);
+        } else {
+            this->ui->connect->setText("Connect");
+            this->ui->camera_container->setVisible(false);
+            this->ui->view_disconnected->setVisible(true);
+        }
     }
 }

@@ -26,8 +26,10 @@ class MyRobot : public QObject {
 
 public:
     MyRobot(QObject* parent, QString _ip);  // constructor
+
     void doConnect();   // connect to the bot
     void disConnect();  // disconnect from the bot
+    bool isConnected() { return this->connection_status; }; // get the connection status
 
     void setSpeed(int val);         // update the bot's speed
     void turn(float angle);         // update the bot's angle
@@ -39,9 +41,8 @@ public:
     int getDistLeft2() { return this->distLeft2; };     // get the second left IR sensor value
     int getDistRight2() { return this->distRight2; };   // get the second right IR sensor value
 
+    unsigned int getBattery();     // get the bot's battery level
 
-/*signals:
-    void updateUI(const QByteArray Data);*/
 
 
 public slots:
@@ -51,6 +52,7 @@ public slots:
     void bytesWritten(qint64 bytes);    // called when datas are sent to the bot
     void readyRead();   // called when datas are received
     void keepAlive();   // called by a timer to keep the connection alive
+
 
 
 private:
@@ -69,10 +71,13 @@ private:
     int speed = 0;                  // current speed
     bool forward = true;            // current direction
     int battery;                    // battery value
+    bool connection_status = false; // connection status
     int distLeft = 127, distRight = 127, distLeft2 = 127, distRight2 = 127; // current IR sensors values
 
     QByteArray DataToSend;      // current datas to send to the bot
     QByteArray DataReceived;    // current datas received from the bot
 };
+
+
 
 #endif // MYROBOT_H

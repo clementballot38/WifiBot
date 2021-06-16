@@ -1,7 +1,8 @@
 <RCC>
-    <qresource prefix="/QtApp">
-        <file>antenna.qml</file>
-        <file>batterie.qml</file>
-        <file>gauge.qml</file>
-    </qresource>
+  <qresource prefix="/QtApp">
+    <file>antenna.qml</file>
+    <file>disconnected.png</file>
+    <file>batterie.qml</file>
+    <file>gauge.qml</file>
+  </qresource>
 </RCC>

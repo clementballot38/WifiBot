@@ -2,8 +2,9 @@
 
 
 // constructor
-MyRobot::MyRobot(QObject* parent, QString _ip) : QObject(parent), ip(_ip) {
-    
+MyRobot::MyRobot(QObject* parent, QString _ip)
+    : QObject(parent), ip(_ip), battery(0), socket(0) {
+
     // initialize the datas sent to the bot
     DataToSend.resize(9);
     DataToSend[0] = 0xFF;
@@ -21,9 +22,6 @@ MyRobot::MyRobot(QObject* parent, QString _ip) : QObject(parent), ip(_ip) {
     TimerEnvoi = new QTimer();
     TimerEnvoi->setInterval(100);
     connect(TimerEnvoi, SIGNAL(timeout()), this, SLOT(keepAlive()));
-
-    // connect to the bot
-    this->doConnect();
 }
 
 // periodically send datas to the bot to keep the connection alive
@@ -122,11 +120,13 @@ quint16 MyRobot::crc16(QByteArray byteArray) {
 // event called when the bot is connected
 void MyRobot::connected() {
     qDebug() << "connected..."; // Hey server, tell me about you.
+    this->connection_status = true;
 }
 
 // event called when the bot is disconnected
 void MyRobot::disconnected() {
     qDebug() << "disconnected...";
+    this->connection_status = false;
 }
 
 // event called when datas are sent to the bot
@@ -170,9 +170,9 @@ void MyRobot::turn(float angle) {
 void MyRobot::goForward(bool f) {
     this->forward = f;
 }
-//batterie
-unsigned int MyRobot::getBattery()
-{
+
+// get the bot's battery level
+unsigned int MyRobot::getBattery() {
     qDebug() << "batterie" << this->battery;
     unsigned int battery = (unsigned char)DataReceived[2] * 100.0 / 255.0;
     return battery;
