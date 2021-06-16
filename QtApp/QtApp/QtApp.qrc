@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/QtApp">
-        <file>gauge.qml</file>
         <file>antenna.qml</file>
+        <file>batterie.qml</file>
+        <file>gauge.qml</file>
     </qresource>
 </RCC>

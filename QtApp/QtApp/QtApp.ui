@@ -124,7 +124,7 @@ QGroupBox::title {
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>60</y>
+      <y>30</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -138,14 +138,14 @@ background: white;
 border-radius: 15px;</string>
     </property>
     <property name="text">
-     <string>UP</string>
+     <string>Z</string>
     </property>
    </widget>
    <widget class="QPushButton" name="left">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>120</y>
+      <y>90</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -159,14 +159,14 @@ background: white;
 border-radius: 15px;</string>
     </property>
     <property name="text">
-     <string>LEFT</string>
+     <string>Q</string>
     </property>
    </widget>
    <widget class="QPushButton" name="right">
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>120</y>
+      <y>90</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -180,14 +180,14 @@ background: white;
 border-radius: 15px;</string>
     </property>
     <property name="text">
-     <string>RIGHT</string>
+     <string>D</string>
     </property>
    </widget>
    <widget class="QPushButton" name="down">
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>180</y>
+      <y>90</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -201,14 +201,14 @@ background: white;
 border-radius: 15px;</string>
     </property>
     <property name="text">
-     <string>DOWN</string>
+     <string>S</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="stop">
+   <widget class="QPushButton" name="cam_up">
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>120</y>
+      <y>210</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -222,7 +222,89 @@ background: white;
 border-radius: 15px;</string>
     </property>
     <property name="text">
-     <string>stop</string>
+     <string>T</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>160</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Caméra</string>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cam_left">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>270</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+background: white;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>F</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cam_down">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>270</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+background: white;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>G</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cam_right">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>270</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+background: white;
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>H</string>
     </property>
    </widget>
   </widget>
@@ -393,6 +475,24 @@ QGroupBox::title {
     <property name="source">
      <url>
       <string>qrc:/QtApp/antenna.qml</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="QQuickWidget" name="batterie">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>30</y>
+      <width>60</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="resizeMode">
+     <enum>QQuickWidget::SizeRootObjectToView</enum>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/QtApp/batterie.qml</string>
      </url>
     </property>
    </widget>

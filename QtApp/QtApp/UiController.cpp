@@ -14,11 +14,16 @@ namespace UiController {
         connect(this->ui->down, SIGNAL(pressed()), this, SLOT(downButton()));
         connect(this->ui->left, SIGNAL(pressed()), this, SLOT(leftButton()));
         connect(this->ui->right, SIGNAL(pressed()), this, SLOT(rightButton()));
-        
-        connect(this->ui->up, SIGNAL(released()), this, SLOT(upButton()));
-        connect(this->ui->down, SIGNAL(released()), this, SLOT(downButton()));
-        connect(this->ui->left, SIGNAL(released()), this, SLOT(leftButton()));
-        connect(this->ui->right, SIGNAL(released()), this, SLOT(rightButton()));
+
+        connect(this->ui->up, SIGNAL(released()), this, SLOT(stopButton()));
+        connect(this->ui->down, SIGNAL(released()), this, SLOT(stopButton()));
+        connect(this->ui->left, SIGNAL(released()), this, SLOT(stopButton()));
+        connect(this->ui->right, SIGNAL(released()), this, SLOT(stopButton()));
+
+        connect(ui->cam_down, SIGNAL(pressed()), this, SLOT(downCamera()));
+        connect(ui->cam_up, SIGNAL(pressed()), this, SLOT(upCamera()));
+        connect(ui->cam_left, SIGNAL(pressed()), this, SLOT(leftCamera()));
+        connect(ui->cam_right, SIGNAL(pressed()), this, SLOT(rightCamera()));
 
 
         // start the camera view
@@ -43,12 +48,17 @@ namespace UiController {
 
         this->distGaugeRight = new GaugeController(this);
         this->ui->dist_gauge_right->rootContext()->setContextProperty("controller", this->distGaugeRight);
+        
 
         this->distGaugeLeft2 = new GaugeController(this);
         this->ui->dist_gauge_left_2->rootContext()->setContextProperty("controller", this->distGaugeLeft2);
 
         this->distGaugeRight2 = new GaugeController(this);
         this->ui->dist_gauge_right_2->rootContext()->setContextProperty("controller", this->distGaugeRight2);
+        
+        this->batterieController = new GaugeController(this);
+        this->ui->batterie->rootContext()->setContextProperty("controller", this->batterieController);
+        
         
         // start the timer to update the gauges periodically
         this->gaugesTimer = new QTimer();
@@ -70,6 +80,8 @@ namespace UiController {
         this->distGaugeRight->setValue(this->bot->getDistRight());
         this->distGaugeLeft2->setValue(this->bot->getDistLeft2());
         this->distGaugeRight2->setValue(this->bot->getDistRight2());
+        
+        this->batterieController->setValue(bot_speed < 0 ? -bot_speed : 0);
     }
 
 
@@ -88,6 +100,7 @@ namespace UiController {
         case Qt::Key_D:
             this->rightButton();
             break;
+      
         }
     }
 
@@ -138,5 +151,27 @@ namespace UiController {
     void UiController::stopBot() {
         bot->setSpeed(0);
         bot->turn(0);
+    }
+
+
+    void UiController::upCamera()
+    {
+        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=-100"));
+        manager->get(request);
+    }
+    void UiController::leftCamera()
+    {
+        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=100"));
+        manager->get(request);
+    }
+    void UiController::rightCamera()
+    {
+        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=-100"));
+        manager->get(request);
+    }
+    void UiController::downCamera()
+    {
+        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=100"));
+        manager->get(request);
     }
 }

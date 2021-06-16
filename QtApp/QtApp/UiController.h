@@ -6,7 +6,7 @@
 #include <QMessageBox>
 #include <ui_QtApp.h>
 #include <QTimer>
-
+#include <QNetworkRequest>
 #include "MyRobot.h";
 #include "GamepadController.h";
 #include "GaugeController.h";
@@ -44,7 +44,7 @@ namespace UiController {
         Ui::QtAppClass* ui;         // attached UI
         MyRobot* bot;               // attached bot
         GamepadController* gamepad; // attached gamepad
-        GaugeController *globalGauge, *speedGauge, *brakesGauge, *distGaugeLeft, *distGaugeRight, *distGaugeLeft2, *distGaugeRight2;    // attached gauges
+        GaugeController *globalGauge, *speedGauge, *brakesGauge, *distGaugeLeft, *distGaugeRight, *distGaugeLeft2, *distGaugeRight2, *batterieController;    // attached gauges
         void keyPressEvent(QKeyEvent* ev);      // override the QObject keyPress event to handle keyboard controls
         void keyReleaseEvent(QKeyEvent* ev);    // override the QObject keyRelease event to handle keyboard controls
         void stopBot();     // stops the bot
@@ -56,5 +56,9 @@ namespace UiController {
         void leftButton();      // called when the 'left' button is pressed
         void rightButton();     // called when the 'right' button is pressed
         void updateGauges();    // called when the gauges are updated
+        void upCamera();
+        void downCamera();
+        void leftCamera();
+        void rightCamera();
     };
 }

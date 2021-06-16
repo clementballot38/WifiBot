@@ -39,6 +39,7 @@ public:
     int getDistLeft2() { return this->distLeft2; };     // get the second left IR sensor value
     int getDistRight2() { return this->distRight2; };   // get the second right IR sensor value
 
+
 /*signals:
     void updateUI(const QByteArray Data);*/
 
@@ -67,6 +68,7 @@ private:
     const float PI = 3.14159265f;   // pi
     int speed = 0;                  // current speed
     bool forward = true;            // current direction
+    int battery;                    // battery value
     int distLeft = 127, distRight = 127, distLeft2 = 127, distRight2 = 127; // current IR sensors values
 
     QByteArray DataToSend;      // current datas to send to the bot
