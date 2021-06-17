@@ -31,13 +31,13 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.0.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;quick;quickwidgets;svg;webengine;webenginewidgets;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.0.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;gamepad;gui;multimedia;multimediawidgets;network;opengl;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -55,12 +55,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <IncludePath>C:\Users\jules\OneDrive\Bureau\3ARobot\projet3A\5.15.2\msvc2019_64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <IncludePath>C:\Users\jules\OneDrive\Bureau\3ARobot\projet3A\5.15.2\msvc2019_64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>..\5.15.2\msvc2019_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -97,9 +100,26 @@
   <ItemGroup>
     <QtRcc Include="QtApp.qrc" />
     <QtUic Include="QtApp.ui" />
-    <QtMoc Include="QtApp.h" />
-    <ClCompile Include="QtApp.cpp" />
+    <QtMoc Include="UiController.h" />
+    <ClCompile Include="GamepadController.cpp" />
+    <ClCompile Include="GaugeController.cpp" />
+    <ClCompile Include="MyRobot.cpp" />
+    <ClCompile Include="UiController.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="MyRobot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="GamepadController.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="antenna.qml" />
+    <None Include="gauge.qml" />
+    <None Include="res\admin.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="GaugeController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

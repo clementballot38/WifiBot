@@ -1,4 +1,9 @@
 <RCC>
-    <qresource prefix="QtApp">
-    </qresource>
+  <qresource prefix="/QtApp">
+    <file>bot.png</file>
+    <file>antenna.qml</file>
+    <file>disconnected.png</file>
+    <file>batterie.qml</file>
+    <file>gauge.qml</file>
+  </qresource>
 </RCC>

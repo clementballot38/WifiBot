@@ -29,10 +29,7 @@
     <QtUic Include="QtApp.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="QtApp.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="QtApp.cpp">
+    <ClCompile Include="UiController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -40,5 +37,33 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyRobot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GamepadController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GaugeController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="MyRobot.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GamepadController.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="UiController.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GaugeController.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gauge.qml" />
+    <None Include="res\admin.svg" />
+    <None Include="antenna.qml" />
   </ItemGroup>
 </Project>
