@@ -245,6 +245,15 @@ namespace UiController {
             this->ui->connect->setText("Disconnect");
             this->ui->camera_container->setVisible(true);
             this->ui->view_disconnected->setVisible(false);
+
+            if (this->gamepad->turnCameraLeft())
+                this->leftCamera();
+            if (this->gamepad->turnCameraRight())
+                this->rightCamera();
+            if (this->gamepad->turnCameraUp())
+                this->upCamera();
+            if (this->gamepad->turnCameraDown())
+                this->downCamera();
         } else {
             this->ui->connect->setText("Connect");
             this->ui->camera_container->setVisible(false);

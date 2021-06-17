@@ -70,7 +70,7 @@ private:
     const float PI = 3.14159265f;   // pi
     int speed = 0;                  // current speed
     bool forward = true;            // current direction
-    int battery;                    // battery value
+    unsigned int battery;           // battery value
     bool connection_status = false; // connection status
     int distLeft = 127, distRight = 127, distLeft2 = 127, distRight2 = 127; // current IR sensors values
 

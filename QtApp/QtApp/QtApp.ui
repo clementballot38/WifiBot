@@ -529,7 +529,7 @@ QGroupBox::title {
      </url>
     </property>
    </widget>
-   <widget class="QQuickWidget" name="dist_gauge_left">
+   <widget class="QQuickWidget" name="dist_gauge_right">
     <property name="geometry">
      <rect>
       <x>440</x>
@@ -550,7 +550,7 @@ QGroupBox::title {
      </url>
     </property>
    </widget>
-   <widget class="QQuickWidget" name="dist_gauge_right">
+   <widget class="QQuickWidget" name="dist_gauge_left">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -589,7 +589,7 @@ QGroupBox::title {
      </url>
     </property>
    </widget>
-   <widget class="QQuickWidget" name="dist_gauge_left_2">
+   <widget class="QQuickWidget" name="dist_gauge_right_2">
     <property name="geometry">
      <rect>
       <x>440</x>
@@ -610,7 +610,7 @@ QGroupBox::title {
      </url>
     </property>
    </widget>
-   <widget class="QQuickWidget" name="dist_gauge_right_2">
+   <widget class="QQuickWidget" name="dist_gauge_left_2">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -644,6 +644,25 @@ QGroupBox::title {
      <url>
       <string>qrc:/QtApp/batterie.qml</string>
      </url>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>70</y>
+      <width>91</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="QtApp.qrc">:/QtApp/bot.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

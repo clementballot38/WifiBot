@@ -173,6 +173,8 @@ void MyRobot::goForward(bool f) {
 
 // get the bot's battery level
 unsigned int MyRobot::getBattery() {
-    unsigned int battery = (unsigned char)DataReceived[2] * 100.0 / 255.0;
-    return battery;
+    unsigned int temp = (unsigned char)DataReceived[2] * 100.0 / 255.0;
+    if (temp > 0)
+        this->battery = temp;
+    return this->battery;
 }
