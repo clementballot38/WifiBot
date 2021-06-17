@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     ui.setupUi(widget);
 
     // bind the UI controller to the UI
-    UiController::UiController controller(&ui, "192.168.1.11");
+    UiController::UiController controller(&ui, "192.168.1.106");
     
     // display the main window
     widget->show();

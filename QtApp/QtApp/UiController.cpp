@@ -34,7 +34,7 @@ namespace UiController {
 
         // start the camera view
         this->ui->View_camera->load(QUrl("http://" + ip + ":8080/?action=stream"));
-        this->ui->View_camera->setZoomFactor(1.7);
+        this->ui->View_camera->setZoomFactor(1.6);
         this->ui->View_camera->show();
 
 
@@ -102,7 +102,7 @@ namespace UiController {
             this->distGaugeLeft2->setValue(this->bot->getDistLeft2());
             this->distGaugeRight2->setValue(this->bot->getDistRight2());
 
-            this->batterieController->setValue(bot_speed < 0 ? -bot_speed : 0);
+            this->batterieController->setValue(this->bot->getBattery());
         }
         else {
             // demo mode, use controls to update UI
@@ -120,6 +120,7 @@ namespace UiController {
 
             this->batterieController->setValue(this->gamepad->getAcceleration());
         }
+        this->updateUI(this->bot->isConnected());
     }
 
 
@@ -242,12 +243,14 @@ namespace UiController {
     void UiController::updateUI(bool connected) {
         if (connected) {
             this->ui->connect->setText("Disconnect");
-            this->ui->camera_container->setVisible(true);
-            this->ui->view_disconnected->setVisible(false);
+            /*this->ui->camera_container->setVisible(true);
+            this->ui->view_disconnected->setVisible(false);*/
         } else {
             this->ui->connect->setText("Connect");
-            this->ui->camera_container->setVisible(false);
-            this->ui->view_disconnected->setVisible(true);
+            /*this->ui->camera_container->setVisible(false);
+            this->ui->view_disconnected->setVisible(true);*/
         }
+        this->ui->camera_container->setVisible(true);
+        this->ui->view_disconnected->setVisible(true);
     }
 }
