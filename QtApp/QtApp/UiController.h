@@ -36,16 +36,17 @@ namespace UiController {
 
 
     public:
-        UiController(Ui::QtAppClass* _ui, QString ip);  // constructor
+        UiController(Ui::QtAppClass* _ui, QString _ip);  // constructor
+        void keyPressEvent(QKeyEvent* ev);               // override the QObject keyPress event to handle keyboard controls
+        void keyReleaseEvent(QKeyEvent* ev);             // override the QObject keyRelease event to handle keyboard controls
 
 
     private:
+        QString ip;                             // bot's IP adress
         QTimer* gaugesTimer;                    // timer used to update the gauges periodically
         Ui::QtAppClass* ui;                     // attached UI
         MyRobot* bot;                           // attached bot
         GamepadController* gamepad;             // attached gamepad
-        void keyPressEvent(QKeyEvent* ev);      // override the QObject keyPress event to handle keyboard controls
-        void keyReleaseEvent(QKeyEvent* ev);    // override the QObject keyRelease event to handle keyboard controls
         void updateUI(bool connected);          // updates visible elements & button text
         QNetworkRequest request;                // requests sent to the bot's camera
         QNetworkAccessManager* manager;         // manages the requests sent to the bot's camera

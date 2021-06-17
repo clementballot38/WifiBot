@@ -1,8 +1,8 @@
 #include "UiController.h"
 
 namespace UiController {
-    UiController::UiController(Ui::QtAppClass* _ui, QString ip)
-        : ui(_ui) {
+    UiController::UiController(Ui::QtAppClass* _ui, QString _ip)
+        : ui(_ui), ip(_ip) {
 
 
         bot = new MyRobot(this, ip);
@@ -207,25 +207,25 @@ namespace UiController {
 
     // called when the 'up' camera button is pressed
     void UiController::upCamera() {
-        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=-100"));
+        request.setUrl(QUrl("http://" + this->ip + ":8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=-100"));
         manager->get(request);
     }
 
     // called when the 'down' camera button is pressed
     void UiController::downCamera() {
-        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=100"));
+        request.setUrl(QUrl("http://" + this->ip + ":8080/?action=command&dest=0&plugin=0&id=10094853&group=1&value=100"));
         manager->get(request);
     }
 
     // called when the 'left' camera button is pressed
     void UiController::leftCamera() {
-        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=100"));
+        request.setUrl(QUrl("http://" + this->ip + ":8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=100"));
         manager->get(request);
     }
 
     // called when the 'right' camera button is pressed
     void UiController::rightCamera() {
-        request.setUrl(QUrl("http://192.168.1.11:8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=-100"));
+        request.setUrl(QUrl("http://" + this->ip + ":8080/?action=command&dest=0&plugin=0&id=10094852&group=1&value=-100"));
         manager->get(request);
     }
 
@@ -243,14 +243,12 @@ namespace UiController {
     void UiController::updateUI(bool connected) {
         if (connected) {
             this->ui->connect->setText("Disconnect");
-            /*this->ui->camera_container->setVisible(true);
-            this->ui->view_disconnected->setVisible(false);*/
+            this->ui->camera_container->setVisible(true);
+            this->ui->view_disconnected->setVisible(false);
         } else {
             this->ui->connect->setText("Connect");
-            /*this->ui->camera_container->setVisible(false);
-            this->ui->view_disconnected->setVisible(true);*/
+            this->ui->camera_container->setVisible(false);
+            this->ui->view_disconnected->setVisible(true);
         }
-        this->ui->camera_container->setVisible(true);
-        this->ui->view_disconnected->setVisible(true);
     }
 }

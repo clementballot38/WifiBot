@@ -21,6 +21,21 @@
 
 
 
+UiController::UiController* controller; // main controller
+
+
+// called when an key is pressed
+void QWidget::keyPressEvent(QKeyEvent* ev) {
+    controller->keyPressEvent(ev);
+}
+
+// called when a key is released
+void QWidget::keyReleaseEvent(QKeyEvent* ev) {
+    controller->keyReleaseEvent(ev);
+}
+
+
+
 int main(int argc, char *argv[])
 {
     // app context
@@ -34,7 +49,7 @@ int main(int argc, char *argv[])
     ui.setupUi(widget);
 
     // bind the UI controller to the UI
-    UiController::UiController controller(&ui, "192.168.1.106");
+    controller = new UiController::UiController(&ui, "192.168.1.106");
     
     // display the main window
     widget->show();
